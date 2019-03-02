@@ -38,13 +38,13 @@ session_start();
  *   General
  *********************/
 
-define('OBBLM_VERSION', '0.97 SVN');
+define('OBBLM_VERSION', '0.98 - SEBBL Branch');
 $credits = array('Pierluigi Masia', 'Mag Merli', 'Lars Scharrenberg', 'Tim Haini', 'Daniel Straalman', 'Juergen Unfried', 'Sune Radich Christensen', 'Michael Bielec', 'Grégory Romé', 'Goiz Ruiz de Gopegui', 'Ryan Williams', 'Ian Williams');
 define('MAX_RECENT_GAMES', 15); // This limits the number of rows shown in the "recent/upcoming games" tables.
 define('MAX_TNEWS', 3); // This number of entries are shown on the team news board.
-define('DOC_URL', 'http://www.nicholasmr.dk/obblmwiki');
-define('DOC_URL_GUIDE', 'http://www.nicholasmr.dk/obblmwiki/index.php?title=User_guide');
-define('DOC_URL_CUSTOM', 'http://www.nicholasmr.dk/obblmwiki/index.php?title=Customization');
+define('DOC_URL', 'https://www.facebook.com/groups/1494564037249721/');
+define('DOC_URL_GUIDE', 'https://www.facebook.com/groups/1494564037249721/');
+define('DOC_URL_CUSTOM', 'https://www.facebook.com/groups/1494564037249721/');
 
 /*********************
  *   Node and object types.
@@ -90,7 +90,8 @@ require_once('lib/settings_default.php'); # Defaults
 require_once('settings.php');             # Overrides
 require_once('localsettings/settings_none.php'); # Defaults. Overrides are league dependant and are not loaded here - see setupGlobalVars()
 # Load game data --- Module settings might depend on game data, so we include it first
-require_once('lib/game_data_lrb6.php'); # LRB6 MUST be loaded.
+#require_once('lib/game_data_lrb6.php'); # LRB6 MUST be loaded.
+require_once('lib/game_data_dz1_dz2_spikemagupdates.php'); # Updates to data, requires game_data_lrb6.php > game_data_lrb6x.php > game_data.php
 if ($settings['custom_races']['Bretonnia'])         {require_once('lib/game_data_bretonnia.php');}
 if ($settings['custom_races']['Daemons of khorne']) {require_once('lib/game_data_daemonsofkhorne.php');}
 if ($settings['custom_races']['Apes of wrath'])     {require_once('lib/game_data_apesofwrath.php');}

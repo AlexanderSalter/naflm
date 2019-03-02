@@ -16,22 +16,18 @@ var MatchDialogViewModel = function(playersOnSelectedTeam) {
     self.selectedPlayerViewModel = match.selectedPlayerViewModel;
     
     self.openMatch = function(serverMatch) {
-        var theirTeamName = parseInt(serverMatch.team1_id, 10) === match.myTeamId() 
-            ? serverMatch.team2_name
-            : serverMatch.team1_name;
-        
         self.serverMatch(serverMatch);
         match
             .load(serverMatch)
             .then(function() {
-                $('#MatchDialog').dialog({modal: true, title: 'vs. ' + theirTeamName});
+                $('#MatchDialog').dialog({modal: true});
             });
     };
     
     self.saveMatch = function() {
         match.saveMatch().done(function() {
             // reload page so updates are made
-            window.location.search = '?mobile=1&lastMatchId=' + match.getMatchId() + '&SelectedTeam=' + self.myTeamId();
+            window.location.search = '?mobile=1&lastMatchId=' + match.getMatchId();
         });
     };
     

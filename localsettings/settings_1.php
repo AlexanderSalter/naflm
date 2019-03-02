@@ -6,14 +6,14 @@
 preg_match('/settings_(.*?)\.php/', __FILE__, $match);
 $get_lid = $match[1];
 $settings['stylesheet'] = 1; 
-$settings['lang']            = 'en-GB';
+$settings['lang'] = 'en-GB';
 
 /*********************
  *   General
  *********************/
 
 // Change the Title after the = sign.  Do not change things before the = sign.
-$settings['banner_subtitle'] = 'New here?  Visit theNAF.net/Leagues for more information';
+$settings['banner_subtitle'] = '';
 // Button text for league URL.
 $settings['league_url_name'] = 'League Forum'; 
 // Stylesheet for text etc. Currently stylesheet 1 is the only existing stylesheet, so don't change it!  
@@ -47,9 +47,9 @@ $rules['player_refund']         = 0;        // Player sell value percentage. Def
 $rules['journeymen_limit']      = 11;       // Until a team can field this number of players, it may fill team positions with journeymen.
 $rules['post_game_ff']          = false;    // Default is false. Allows teams to buy and drop fan factor even though their first game has been played.
 
-$rules['initial_treasury']      = 1100000;  // Default is 1000000.
+$rules['initial_treasury'] = 1000000;  // Default is 1000000.
 $rules['initial_rerolls']       = 0;        // Default is 0.
-$rules['initial_fan_factor']    = 0;        // Default is 0.
+$rules['initial_fan_factor']    = 3;        // Default is 0.
 $rules['initial_ass_coaches']   = 0;        // Default is 0.
 $rules['initial_cheerleaders']  = 0;        // Default is 0.
 
@@ -109,7 +109,23 @@ Also note that using HRSs with fields such as points (pts) for leagues/divisions
 # Format: "Displayed table column name" => "OBBLM field name". For the OBBLM fields available see http://nicholasmr.dk/obblmwiki/index.ph ... tomization
 'fields' => array('Name' => 'name', 'PTS' => 'pts', 'TV' => 'tv', 'CAS' => 'cas', 'W' => 'won', 'L' => 'lost', 'D' => 'draw', 'GF' => 'gf', 'GA' => 'ga',),
 ),
-    
+array(
+'id' => 1, # Node ID
+'box_ID' => 2,
+// Please note: 'type' may be either one of: 'league', 'division' or 'tournament'
+'type' => 'tournament', # This sets the node to be a tournament. I.e. this will make a standings box for the tournament with ID = 1
+'infocus' => true, # If true a random team from the standings will be selected and its top players displayed.
+/*
+The house ranking system (HRS) NUMBER to sort the table against.
+Note, this is ignored for "type = tournament", since tours have an assigned HRS.
+Also note that using HRSs with fields such as points (pts) for leagues/divisions standings makes no sense as they are tournament specific fields (i.e. it makes no sense to sum the points for teams across different tours to get the teams' "league/division points", as the points definitions for tours may vary).
+*/
+'HRS' => get_alt_col('tours','tour_id',1,'rs'), # Note: this must be a existing and valid HRS number from the main settings.php file.
+'title' => get_alt_col('tours','tour_id',1,'name'), # Table title
+'length' => 40, # Number of entries in table
+# Format: "Displayed table column name" => "OBBLM field name". For the OBBLM fields available see http://nicholasmr.dk/obblmwiki/index.ph ... tomization
+'fields' => array('Name' => 'name', 'PTS' => 'pts', 'TV' => 'tv', 'CAS' => 'cas', 'W' => 'won', 'L' => 'lost', 'D' => 'draw', 'GF' => 'gf', 'GA' => 'ga',),
+)  
 );
 
 /*********************
@@ -119,23 +135,43 @@ Also note that using HRSs with fields such as points (pts) for leagues/divisions
 $settings['fp_leaders'] = array(
     # Please note: You can NOT make expressions out of leader fields e.g.: 'field' => 'cas+td'
     # This will display a 'most CAS' player leaders box for the node (league, division or tournament) with ID = 1
-    array(
-        'id'        => get_alt_col('tours','tour_id',$get_prime,'f_did'), # Node ID
+	array(
+        'id'        => 2, #get_alt_col('tours','tour_id',2,'f_did'), # Node ID
         'box_ID'    => 3,
         // Please note: 'type' may be either one of: 'league', 'division' or 'tournament'
-        'type'      => 'division', # This sets the node to be a tournament. I.e. this will make a leaders box for the tournament with ID = 1
-        'title'     => 'Most Individual Casualties (Division)', # Table title
+        'type'      => 'tournament', # This sets the node to be a tournament. I.e. this will make a leaders box for the tournament with ID = 1
+        'title'     => 'Most Individual Casualties 2019', # Table title
+        'field'     => 'cas', # For the OBBLM fields available see http://nicholasmr.dk/obblmwiki/index.php?title=Customization
+        'length'    => 5, # Number of entries in table
+        'show_team' => true, # Show player's team name?
+    ),
+    array(
+        'id'        => 1, #get_alt_col('tours','tour_id',1,'f_did'), # Node ID
+        'box_ID'    => 4,
+        // Please note: 'type' may be either one of: 'league', 'division' or 'tournament'
+        'type'      => 'tournament', # This sets the node to be a tournament. I.e. this will make a leaders box for the tournament with ID = 1
+        'title'     => 'Most Individual Casualties 2018', # Table title
         'field'     => 'cas', # For the OBBLM fields available see http://nicholasmr.dk/obblmwiki/index.php?title=Customization
         'length'    => 5, # Number of entries in table
         'show_team' => true, # Show player's team name?
     ),
     # This will display a 'most TD' player leaders box for the node (league, division or tournament) with ID = 2
     array(
-        'id'        => get_alt_col('tours','tour_id',$get_prime,'f_did'), # Node ID
-        'box_ID'    => 4,
+        'id'        => 2, #get_alt_col('tours','tour_id',2,'f_did'), # Node ID
+        'box_ID'    => 5,
         // Please note: 'type' may be either one of: 'league', 'division' or 'tournament'
-        'type'      => 'division', # This sets the node to be a tournament. I.e. this will make a leaders box for the tournament with ID = 1
-        'title'     => 'Most Individual Touchdowns (Division)', # Table title
+        'type'      => 'tournament', # This sets the node to be a tournament. I.e. this will make a leaders box for the tournament with ID = 1
+        'title'     => 'Most Individual Touchdowns 2019', # Table title
+        'field'     => 'td', # For the OBBLM fields available see http://nicholasmr.dk/obblmwiki/index.php?title=Customization
+        'length'    => 5, # Number of entries in table
+        'show_team' => true, # Show player's team name?
+    ),
+    array(
+        'id'        => 1, #get_alt_col('tours','tour_id',1,'f_did'), # Node ID
+        'box_ID'    => 6,
+        // Please note: 'type' may be either one of: 'league', 'division' or 'tournament'
+        'type'      => 'tournament', # This sets the node to be a tournament. I.e. this will make a leaders box for the tournament with ID = 1
+        'title'     => 'Most Individual Touchdowns 2018', # Table title
         'field'     => 'td', # For the OBBLM fields available see http://nicholasmr.dk/obblmwiki/index.php?title=Customization
         'length'    => 5, # Number of entries in table
         'show_team' => true, # Show player's team name?
@@ -156,20 +192,20 @@ $settings['fp_events'] = array(
     */
     array(
         'id'        => $get_lid, # Node ID
-        'box_ID'    => 5,
+        'box_ID'    => 7,
         // Please note: 'type' may be either one of: 'league', 'division' or 'tournament'
         'type'      => 'league', # This sets the node to be a tournament. I.e. this will make an event box for the tournament with ID = 1
-        'title'     => 'Latest Dead Players (League)', # Table title
+        'title'     => 'Latest Dead Players (All Time)', # Table title
         'content'   => 'dead', # Event type
         'length'    => 5, # Number of entries in table
     ),
 
 array(
         'id'        => $get_lid, # Node ID
-        'box_ID'    => 6,
+        'box_ID'    => 8,
         // Please note: 'type' may be either one of: 'league', 'division' or 'tournament'
         'type'      => 'league', # This sets the node to be a tournament. I.e. this will make an event box for the tournament with ID = 1
-        'title'     => 'Latest Skills (League)', # Table title
+        'title'     => 'Latest Skills (All Time)', # Table title
         'content'   => 'skills', # Event type
         'length'    => 5, # Number of entries in table
     ),
@@ -183,7 +219,7 @@ $settings['fp_latestgames'] = array(
     # This will display a latest games box for the node (league, division or tournament) with ID = 1
     array(
         'id'     => $get_lid, # Node ID
-        'box_ID' => 7,
+        'box_ID' => 9,
         // Please note: 'type' may be either one of: 'league', 'division' or 'tournament'
         'type'   => 'league', # This sets the node to be a league. I.e. this will make a latest games box for the league with ID = 1
         'title'  => 'Recent Games (League)', # Table title

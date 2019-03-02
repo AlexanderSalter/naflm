@@ -229,13 +229,14 @@ public static function getMatches($obj, $obj_id, $node, $node_id, $opp_obj, $opp
     $query = "
         SELECT 
             DISTINCT(match_id) AS 'match_id', 
-            IF((team1_id = $tid AND team1_score > team2_score) OR (team2_id = $tid AND team1_score < team2_score), 'W', IF(team1_score = team2_score, 'D', 'L')) AS 'result' 
+            IF((team1_id = $tid AND team1_score > team2_score) OR (team2_id = $tid AND team1_score < team2_score), 'W', IF(team1_score = team2_score, 'D', 'L')) AS 'result', date_played
         FROM ".implode(', ', $from)." 
         WHERE 
                 date_played IS ".(($getUpcomming) ? '' : 'NOT')." NULL 
             AND match_id > 0 
             AND ".implode(' AND ', $where)." 
         ORDER BY $ORDERBY_RND date_played DESC $LIMIT";
+	//print($query);
     $result = mysql_query($query);
     if (is_resource($result) && mysql_num_rows($result) > 0) {
         while ($r = mysql_fetch_assoc($result)) {
@@ -255,7 +256,7 @@ public static function getMatches($obj, $obj_id, $node, $node_id, $opp_obj, $opp
     $query_cnt = str_replace($LIMIT, '', $query_cnt);
     $result = mysql_query($query_cnt);
     $row = mysql_fetch_assoc($result);
-    $pages = (!isset($delta) || !$delta) ? 1 : ceil($row['cnt']/$delta);
+    $pages = ceil($row['cnt']/$delta);
 
     return array($matches, $pages);
 }

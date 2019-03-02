@@ -68,7 +68,7 @@ function sec_login() {
         }
         else {
             ?>
-            <div class='boxCommon'>
+            <div class='boxWide boxTextCenter'>
                 <h3 class='boxTitle<?php echo T_HTMLBOX_COACH;?>'><?php echo $lng->getTrn('login/forgotpass');?></h3>
                 <div class='boxBody'>
                 <form method="POST" action="<?php echo $_URL_forgotpass;?>">
@@ -93,7 +93,7 @@ function sec_login() {
                 $('#coach').focus();
             });
         </script>
-        <div class='boxCommon'>
+        <div class='boxWide boxTextCenter'>
             <h3 class='boxTitle<?php echo T_HTMLBOX_COACH;?>'><?php echo $lng->getTrn('menu/login');?></h3>
             <div class='boxBody'>
             <form method="POST" action="<?php echo getFormAction(''); ?>">
@@ -171,38 +171,45 @@ function sec_main() {
      */
 
     ?>
-    <div class="main_head"><?php echo $settings['league_name']; ?></div>
     <div class='main_leftColumn'>
         <div class="main_leftColumn_head">
             <?php
             echo "<div class='main_leftColumn_welcome'>\n";
-            echo $settings['welcome'];
-            echo "</div>\n";
-            echo "<div class='main_leftColumn_left'>\n";
-            if(count($leagues) > 1)
-              echo $HTML_LeagueSelector;
-            echo "</div>\n";
-            echo "<div class='main_leftColumn_right'>\n";
-            if (is_object($coach) && $coach->isNodeCommish(T_NODE_LEAGUE, $sel_lid)) {
-                echo "<a href='javascript:void(0);' onClick=\"slideToggle('msgnew');\">".$lng->getTrn('main/newmsg')."</a>&nbsp;\n";
-            }
-            if (Module::isRegistered('RSSfeed')) {echo "<a href='handler.php?type=rss'>RSS</a>\n";}
+				echo "<div class='boxWide'>\n";
+					if (Module::isRegistered('RSSfeed')) {echo "<a class='icon_link' href='handler.php?type=rss'><i class='fas fa-rss-square'></i></a>\n";}
+					if (is_object($coach) && $coach->isNodeCommish(T_NODE_LEAGUE, $sel_lid)) {
+						echo "<a class='icon_link' href='javascript:void(0);' onClick=\"slideToggle('msgnew');\"><i class='fas fa-comment'></i></a>\n";
+					}
+					if(count($leagues) > 1) {echo $HTML_LeagueSelector;}
+					echo "<h3 class='boxTitle1'>\n";
+						echo "Welcome";
+					echo "</h3>\n";
+					echo "<div class='boxBody'>\n";
+						echo $settings['welcome'];
+					echo "</div>\n";
+				echo "</div>\n";
             echo "</div>\n";
             ?>
             <div style="display:none; clear:both;" id="msgnew">
-                <br><br>
-                <form method="POST">
-                    <textarea name="title" rows="1" cols="50"><?php echo $lng->getTrn('common/notitle');?></textarea><br><br>
-                    <textarea name="txt" rows="15" cols="50"><?php echo $lng->getTrn('common/nobody');?></textarea><br><br>
-                    <?php 
-                    if ($IS_GLOBAL_ADMIN) {
-                        echo $lng->getTrn('main/broadcast');
-                        ?><input type="checkbox" name="BC"><br><br><?php
-                    }
-                    ?>
-                    <input type="hidden" name="type" value="msgnew">
-                    <input type="submit" value="<?php echo $lng->getTrn('common/submit');?>">
-                </form>
+			
+				<div class='boxWide'>
+					<h3 class='boxTitle5'>New Message</h3>
+					<div class='boxBody'>
+						<form method="POST" class="add_msg">
+							<textarea name="title" rows="1" cols="50"><?php echo $lng->getTrn('common/notitle');?></textarea><br><br>
+							<textarea name="txt" rows="15" cols="50"><?php echo $lng->getTrn('common/nobody');?></textarea><br><br>
+							<?php 
+							if ($IS_GLOBAL_ADMIN) {
+								echo $lng->getTrn('main/broadcast');
+								?><input type="checkbox" name="BC"><br><br><?php
+							}
+							?>
+							<input type="hidden" name="type" value="msgnew">
+							<input type="submit" value="<?php echo $lng->getTrn('common/submit');?>">
+						</form>
+					</div>
+				</div>
+				
             </div>
         </div>
 
@@ -355,7 +362,7 @@ function sec_main() {
             list($teams, ) = Stats::getRaw(T_OBJ_TEAM, array($box['type'] => $box['id']), array(1, $box['length']), $SR, false);
             ?>
             <div class='boxWide'>
-                <h3 class='boxTitle<?php echo T_HTMLBOX_STATS;?>'><?php echo $box['title'];?></h3>
+                <h3 class='boxTitle<?php echo T_HTMLBOX_INFO;?>'><?php echo $box['title'];?></h3>
                 <div class='boxBody'>
                     <table class="boxTable">
                         <?php
@@ -484,6 +491,7 @@ function sec_main() {
             
         case 'events':
             $events = _events($box['content'], $box['type'], $box['id'], $box['length']);
+			//print_r($events);
             ?>
             <div class="boxWide">
                 <h3 class='boxTitle<?php echo T_HTMLBOX_STATS;?>'><?php echo $box['title'];?></h3>
@@ -537,18 +545,6 @@ function sec_main() {
     }
     }
     ?>
-    </div>
-    <div class="main_foot">
-        <?php
-        HTMLOUT::dnt();
-        ?>
-        <br>
-        <a TARGET="_blank" href="http://nicholasmr.dk/index.php?sec=obblm">OBBLM official website</a><br><br>
-        This web site is completely unofficial and in no way endorsed by Games Workshop Limited.
-        <br>
-        Bloodquest, Blood Bowl, the Blood Bowl logo, The Blood Bowl Spike Device, Chaos, the Chaos device, the Chaos logo, Games Workshop, Games Workshop logo, Nurgle, the Nurgle device, Skaven, Tomb Kings, and all associated marks, names, races, race insignia, characters, vehicles, locations, units, illustrations and images from the Blood Bowl game, the Warhammer world are either (R), TM and/or (C) Games Workshop Ltd 2000-2006, variably registered in the UK and other countries around the world. Used without permission. No challenge to their status intended. All Rights Reserved to their respective owners.
-        <br>
-        FUMBBL icons are used with permission.  See 'about OBBLM' for credits.
     </div>
     <?php
 }
@@ -604,6 +600,7 @@ function _infocus($teams) {
         #inFocusBox<?php echo $_INFOCUSCNT;?> .teamLogo {
             float: left;
             margin: 0 36px 0 20px;
+			width:50%;
         }
 
         #inFocusBox<?php echo $_INFOCUSCNT;?> .teamName {
@@ -611,9 +608,10 @@ function _infocus($teams) {
         }
 
         #inFocusContent<?php echo $_INFOCUSCNT;?> {
-            position:relative;
+			position:relative;
             left: 160px;
             height: 80px;
+			width:50%;
         }
 
         #inFocusContent<?php echo $_INFOCUSCNT;?> P {
@@ -645,9 +643,9 @@ function _infocus($teams) {
     <div id="inFocusBox<?php echo $_INFOCUSCNT;?>" >
         <h3><?php echo $lng->getTrn('main/infocus').': '.$teamLink; ?></h3><br>
         <div style='clear:both;'>
-            <div class='teamLogo'>
-                <?php echo $logo_html; ?>
-            </div>
+			<div class='teamLogo'>
+				<?php echo $logo_html; ?>
+			</div>
             <div id="inFocusContent<?php echo $_INFOCUSCNT;?>">
                 <div class="inFocus">
                     <table>
@@ -816,86 +814,100 @@ function sec_about() {
 
     global $lng, $credits;
     title("About OBBLM");
-    HTMLOUT::dnt();
+    //HTMLOUT::dnt();
     ?>
-    <br>
-    <p>
-        <b>OBBLM version <?php echo OBBLM_VERSION; ?></b><br><br>
-        Online Blood Bowl League Manager is an online game management system for Game Workshop's board game Blood Bowl.<br>
-        <br>
-        The authors of this program are
-        <ul>
-            <li> <a href="mailto:nicholas.rathmann@gmail.com">Nicholas Mossor Rathmann</a>
-            <li> <a href="http://www.mercuryvps.com">William Leonard</a>
-            <li> Niels Orsleff Justesen</a>
-        </ul>
-         <br>
-        With special thanks to <?php $lc = array_pop($credits); echo implode(', ', $credits)." and $lc"; ?>.<br><br>
-        Bugs reports and suggestions are welcome.
-        <br><br>
-        Further development carried out under the <a href="https://github.com/TheNAF/naflm">NAFLM fork</a> by
-        <ul>
-            <li> Steve Arthurs</a>
-            <li> Craig Fleming</a>
-        </ul>
-        <br><br>With special thanks to Scott Bartel, Tom "Hutchinsfairy" and Michael Franchetti.
-        <br><br>
-        OBBLM consists of valid HTML 4.01 transitional document type pages.
-        <br><br>
-        <img src="http://www.w3.org/Icons/valid-html401" alt="Valid HTML 4.01 Transitional" height="31" width="88">
-        <br><br>
-        <b>Modules loaded:</b><br>
-        <?php
-        $mods = array();
-        foreach (Module::getRegistered() as $modname) {
-            list($author,$date,$moduleName) = Module::getInfo($modname);
-            $mods[] = "<i>$moduleName</i> ($author, $date)";
-        }
-        echo implode(', ', $mods);
-        ?>
-    </p>
-
-    <?php 
-    title("OBBLM Hosting");
-    echo 'Please visit <a href="http://www.mercuryvps.com">Mercury VPS</a> and click on the OBBLM tab to get started.';
-    
-    title("Documentation");
-    echo "See the <a TARGET='_blank' href='".DOC_URL."'>OBBLM documentation wiki</a>";
-    
-    ?>
-
-    <?php title("Disclaimer");?>
-    <p>
-        By installing and using this software you hereby accept and understand the following disclaimer
-        <br><br>
-        <b>This web site is completely unofficial and in no way endorsed by Games Workshop Limited.</b>
-        <br><br>
-        Bloodquest, Blood Bowl, the Blood Bowl logo, The Blood Bowl Spike Device, Chaos, the Chaos device, the Chaos logo, Games Workshop, Games Workshop logo, Nurgle, the Nurgle device, Skaven, Tomb Kings, 
-        and all associated marks, names, races, race insignia, characters, vehicles, locations, units, illustrations and images from the Blood Bowl game, the Warhammer world are either ®, TM and/or © Games Workshop Ltd 2000-2006, 
-        variably registered in the UK and other countries around the world. Used without permission. No challenge to their status intended. All Rights Reserved to their respective owners.
-        <br><br>
-        Fumbbl icons are used with permission.  Credits: harvestmouse, garion, christer, whatball.
-    </p>
-
-    <?php title("License");?>
-    <p>
-        Copyright (c) Niels Orsleff Justesen and Nicholas Mossor Rathmann 2007-2011. All Rights Reserved.
-        <br><br>
-        OBBLM is free software; you can redistribute it and/or modify
-        it under the terms of the GNU General Public License as published by
-        the Free Software Foundation; either version 3 of the License, or
-        (at your option) any later version.
-        <br><br>
-        OBBLM is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-        GNU General Public License for more details.
-        <br><br>
-        NAFLM is a fork of the original OBBLM programme and inherits all license and copyrights of the original.
-        <br><br>
-        You should have received a copy of the GNU General Public License
-        along with this program.  If not, see http://www.gnu.org/licenses/.
-    </p>
+    <div class='boxWide'>
+        <h3 class='boxTitle3'>SEBBL Manager version <?php echo OBBLM_VERSION; ?></h3>
+        <div class='boxBody boxTextCenter'>
+			<p>
+				Online Blood Bowl League Manager is an online game management system for Game Workshop's board game Blood Bowl.<br>
+				<br>
+				The authors of this program are
+				<br>
+				<div style="display: inline-block">
+					<ul>
+						<li> <a href="mailto:nicholas.rathmann@gmail.com">Nicholas Mossor Rathmann</a>
+						<li> <a href="http://www.mercuryvps.com">William Leonard</a>
+						<li> Niels Orsleff Justesen</a>
+					</ul>
+				</div>
+				 <br>
+				With special thanks to <?php $lc = array_pop($credits); echo implode(', ', $credits)." and $lc"; ?>.<br><br>
+				Bugs reports and suggestions are welcome.
+				<br><br>
+				Further development carried out under the <a href="https://github.com/TheNAF/naflm">NAFLM fork</a> by
+				<br>
+				<div style="display: inline-block">
+					<ul>
+						<li> Steve Arthurs</li>
+						<li> Craig Fleming</li>
+					</ul>
+				</div>
+				<br><br>With special thanks to Scott Bartel, Tom "Hutchinsfairy" and Michael Franchetti.
+				<br><br>
+				Further development carried out by
+				<br>
+				<div style="display: inline-block">
+					<ul>
+						<li> Alexander Salter @ <a href="https://www.bigmanstudios.co.uk">www.bigmanstudios.co.uk</a></li>
+					</ul>
+				</div>
+				<br><br>
+				OBBLM consists of valid HTML 4.01 transitional document type pages.
+				<br><br>
+				<img src="http://www.w3.org/Icons/valid-html401" alt="Valid HTML 4.01 Transitional" height="31" width="88">
+				<br><br>
+				<b>Modules loaded:</b><br>
+				<?php
+				$mods = array();
+				foreach (Module::getRegistered() as $modname) {
+					list($author,$date,$moduleName) = Module::getInfo($modname);
+					$mods[] = "<i>$moduleName</i> ($author, $date)";
+				}
+				echo implode(', ', $mods);
+				?>
+			</p>
+		</div>
+	</div>
+	<div class='boxWide'>
+        <h3 class='boxTitle3'>Disclaimer</h3>
+        <div class='boxBody boxTextCenter'>
+			<p>
+				By installing and using this software you hereby accept and understand the following disclaimer
+				<br><br>
+				<b>This web site is completely unofficial and in no way endorsed by Games Workshop Limited.</b>
+				<br><br>
+				Bloodquest, Blood Bowl, the Blood Bowl logo, The Blood Bowl Spike Device, Chaos, the Chaos device, the Chaos logo, Games Workshop, Games Workshop logo, Nurgle, the Nurgle device, Skaven, Tomb Kings, 
+				and all associated marks, names, races, race insignia, characters, vehicles, locations, units, illustrations and images from the Blood Bowl game, the Warhammer world are either ®, TM and/or © Games Workshop Ltd 2000-2006, 
+				variably registered in the UK and other countries around the world. Used without permission. No challenge to their status intended. All Rights Reserved to their respective owners.
+				<br><br>
+				Fumbbl icons are used with permission.  Credits: harvestmouse, garion, christer, whatball.
+			</p>
+		</div>
+	</div>
+	<div class='boxWide'>
+        <h3 class='boxTitle3'>License</h3>
+        <div class='boxBody boxTextCenter'>
+			<p>
+			Copyright (c) Niels Orsleff Justesen and Nicholas Mossor Rathmann 2007-2011. All Rights Reserved.
+			<br><br>
+			OBBLM is free software; you can redistribute it and/or modify
+			it under the terms of the GNU General Public License as published by
+			the Free Software Foundation; either version 3 of the License, or
+			(at your option) any later version.
+			<br><br>
+			OBBLM is distributed in the hope that it will be useful,
+			but WITHOUT ANY WARRANTY; without even the implied warranty of
+			MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+			GNU General Public License for more details.
+			<br><br>
+			SEBBL Manager is a fork of NAFLM that is a fork of the original OBBLM programme and inherits all license and copyrights of the original.
+			<br><br>
+			You should have received a copy of the GNU General Public License
+			along with this program.  If not, see http://www.gnu.org/licenses/.
+			</p>
+		</div>
+	</div>
     <?php
 }
 

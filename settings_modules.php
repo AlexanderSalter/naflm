@@ -40,7 +40,7 @@ $settings['modules_enabled'] = array(
 */
 
 $settings['allow_registration'] = true; // Default is true.
-$settings['registration_webmaster'] = "webmaster@example.com"; // Default is "webmaster@example.com".
+$settings['registration_webmaster'] = "webmaster@bigmanstudios.co.uk"; // Default is "webmaster@example.com".
 $settings['lang'] = 'en-GB'; // Default language for registred user.
 
 /*

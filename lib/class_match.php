@@ -591,6 +591,7 @@ class Match
             WHERE date_played IS ".(($getUpcomming) ? '' : 'NOT')." NULL AND match_id > 0 AND f_tour_id = tour_id AND f_did = did
             ".(($where) ? " AND $where " : '')."
             ORDER BY $ORDERBY_RND date_played DESC $LIMIT";
+		//print($query);
         $result = mysql_query($query);
         
         if ($result && mysql_num_rows($result) > 0) {

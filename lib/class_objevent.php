@@ -64,12 +64,13 @@ public static function getRecentEvents($event, $node, $node_id, $N)
         break;
 
     case self::T_PLAYER_SKILLS:
-        $query = "SELECT player_id AS 'pid', game_data_skills.skill_id AS 'skill_id', game_data_skills.cat AS 'cat', game_data_skills.name AS 'skill_name', CONCAT(game_data_skills.name,' (',game_data_skills.cat,')') AS 'skill', $_COMMON_COLS__T_PLAYER FROM players, mv_players, players_skills, game_data_skills WHERE 
+        $query = "SELECT player_id AS 'pid', game_data_skills.skill_id AS 'skill_id', game_data_skills.cat AS 'cat', game_data_skills.name AS 'skill_name', CONCAT(game_data_skills.name,' (',game_data_skills.cat,')') AS 'skill', $_COMMON_COLS__T_PLAYER, players_skills.id FROM players, mv_players, players_skills, game_data_skills WHERE 
             players.player_id = mv_players.f_pid AND 
             mv_players.f_pid = players_skills.f_pid AND
             players_skills.f_skill_id = game_data_skills.skill_id AND 
             ".$mv_keys[$node]." = $node_id 
-        GROUP BY player_id, f_skill_id ORDER BY players_skills.id DESC LIMIT $N";
+        GROUP BY player_id, f_skill_id, players_skills.id ORDER BY players_skills.id DESC LIMIT $N";
+		//print($query);
         $result = mysql_query($query);
         while ($row = mysql_fetch_object($result)) {
             $events[] = $row;

@@ -139,19 +139,7 @@ class Coach
         }
         
         return $teams;
-    }
-    
-    public function getReadyTeams() {
-        $teams = array();
-        $result = mysql_query("SELECT team_id FROM teams WHERE owned_by_coach_id = $this->coach_id AND rdy = 1");
-        if ($result && mysql_num_rows($result) > 0) {
-            while ($row = mysql_fetch_assoc($result)) {
-                array_push($teams, new Team($row['team_id']));
-            }
-        }
-        
-        return $teams;
-    }
+    }    
 
     public function getWonTours() {
 
@@ -196,16 +184,6 @@ class Coach
     public function setRetired($bool) {
         return mysql_query("UPDATE coaches SET retired = ".(($bool) ? 1 : 0)." WHERE coach_id = $this->coach_id");
     }
-    
-    public function getLeagues() {
-        $result = mysql_query("select name from memberships join leagues on memberships.lid=leagues.lid where cid = $this->coach_id");
-        $leagues = array();
-        while($league = mysql_fetch_object($result)) {
-            array_push($leagues, $league->name);
-        }
-        
-        return $leagues;
-    }
 
     public function setRing($rtype, $ring, $lid = false) {
         if ($rtype == self::T_RING_GROUP_GLOBAL && in_array($ring, self::$RINGS[self::T_RING_GROUP_GLOBAL])) {
@@ -220,14 +198,6 @@ class Coach
             return $status;
         }
         
-        return false;
-    }
-    
-    public function isMyTeam($teamId) {
-        foreach($this->getTeams() as $team) {
-            if($team->team_id == $teamId)
-                return true;
-        }
         return false;
     }
 
@@ -277,10 +247,6 @@ class Coach
             }
         }
         return false;
-    }
-    
-    public function isGlobalAdmin() {
-        return $this->ring == Coach::T_RING_GLOBAL_ADMIN;
     }
 
     public function getAdminMenu()
@@ -456,10 +422,14 @@ class Coach
         if (!$GLOBAL_VIEW) {
             $properFields[] = "m.ring AS 'ring'";
         }
-        $query = "SELECT l.lid AS 'lid', d.did AS 'did', t.tour_id AS 'trid',".implode(',',$properFields)."
-            FROM leagues AS l LEFT JOIN divisions AS d ON d.f_lid = l.lid LEFT JOIN tours AS t ON t.f_did = d.did ".
-            ((!$GLOBAL_VIEW) ? ", memberships AS m WHERE m.lid = l.lid AND m.cid = $cid" : '') . ' GROUP BY lid DESC, did DESC, trid DESC';
-        $result = mysql_query($query);
+
+		$query = "SELECT l.lid AS 'lid', d.did AS 'did', t.tour_id AS 'trid',".implode(',',$properFields)."
+            		FROM leagues AS l LEFT JOIN divisions AS d ON d.f_lid = l.lid LEFT JOIN tours AS t ON t.f_did = d.did ".
+            		((!$GLOBAL_VIEW) ? ", memberships AS m WHERE m.lid = l.lid AND m.cid = $cid" : '') . ' GROUP BY lid DESC, did DESC, trid DESC'.
+					((!$GLOBAL_VIEW) ? ", ring DESC;" : '');
+        
+		$result = mysql_query($query);
+
 
         switch ($NODE_SRUCT)
         {

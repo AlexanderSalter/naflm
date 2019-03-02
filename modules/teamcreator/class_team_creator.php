@@ -139,11 +139,6 @@ public static function getRaceArray() {
       $race['name'] = $rname;
       $race['rid'] = $rid;
       $race['apoth'] = !in_array($rid, $racesNoApothecary);
-	  if (array_key_exists($rid, $rules['initial_team_treasury'])) {
-        $race['treasury'] = $rules['initial_team_treasury'][$rid];
-	  } else {
-		$race['treasury'] = $rules['initial_treasury'];
-      };
       $race['players'] = array();
       $race['others'] = array();
       foreach ($DEA[$raceididx[$rid]]['players'] as $pos => $d) {
@@ -197,7 +192,6 @@ public static function getRaceArray() {
          }
          if (in_array($rid, $d['reduced_cost_races'])) {
             $inducement['cost'] = $d['reduced_cost'] / 1000;
-	 } else if ($d['cost'] < 1) {continue; /* eliminates negative value inducements to lock out of non-qualifying races */
          } else {
             $inducement['cost'] = $d['cost'] / 1000;
          }
@@ -231,7 +225,7 @@ public static function handlePost($cid) {
       status(false, $lng->getTrn('notallowed', 'TeamCreator'));
       return;
    }
-   
+
    $lid_did = $_POST['lid_did'];
    @list($lid,$did) = explode(',',$_POST['lid_did']);
    setupGlobalVars(T_SETUP_GLOBAL_VARS__LOAD_LEAGUE_SETTINGS, array('lid' => (int) $lid)); // Load correct $rules for league.
@@ -247,13 +241,8 @@ public static function handlePost($cid) {
    $rerolls = $_POST['qtyo0'];
    $fans = $_POST['qtyo1'];
    $cl = $_POST['qtyo2'];
-   $ac = $_POST['qtyo3'];   
-   if (array_key_exists($rid, $rules['initial_team_treasury'])) {
-        $init_treasury = $rules['initial_team_treasury'][$rid];
-	  } else {
-		$init_treasury = $rules['initial_treasury'];
-      };
-   $treasury = $init_treasury;
+   $ac = $_POST['qtyo3'];
+   $treasury = $rules['initial_treasury'];
    $treasury -= $rerolls * $race['other']['rr_cost'];
    $treasury -= $fans * 10000;
    $treasury -= $cl * 10000;
@@ -297,7 +286,7 @@ public static function handlePost($cid) {
    /* Enforce league rules and common BB ones */
    $errors = array();
    if ($treasury < 0) {
-      $errors[] = $lng->getTrn('tooExpensive', 'TeamCreator') . ' (' . $init_treasury/1000 . ' kGP)';
+      $errors[] = $lng->getTrn('tooExpensive', 'TeamCreator');
    }
    if (sizeof($players) < 11) {
       $errors[] = $lng->getTrn('tooFewPlayers', 'TeamCreator');
@@ -357,9 +346,7 @@ public static function handlePost($cid) {
    /* Report errors and reset the form, or redirect to the team page */
    if (sizeof($errors) > 0) {
       $msg = implode(",<br />", $errors);
-	  if ($_POST['action'] == 'create') {
-		status(false, $msg); // Don't show error messages if there was no attempt to create team
-	  }
+      status(false, $msg);
       $post = (object) $_POST;
 echo<<< EOQ
    <script type="text/javascript">
@@ -382,7 +369,7 @@ EOQ;
 echo<<< EOQ
       var lid = document.getElementById('lid_did');
       for (var i = 0; i < lid.options.length; i++) {
-         if (lid.options[i].value=="$post->lid_did") {
+         if (lid.options[i].value==$post->lid_did) {
             lid.selectedIndex = i;
             break;
          }
@@ -549,7 +536,6 @@ echo<<< EOQ
       var race = races[raceId];
       var players = race["players"];
       var others = race["others"];
-	  var maximum = race['treasury']/1000;
       var i;
       var rowIdx;
       var table = document.getElementById('teamTable');
@@ -559,7 +545,6 @@ echo<<< EOQ
       }
       setText("pcnt", "0");
       setText("total", "0");
-	  setText("total", '0/' + maximum.toString());
       document.getElementById("raceid").value = race.rid;
 
       rowIdx = 0;
@@ -610,7 +595,6 @@ echo<<< EOQ
    function updateTotal() {
       var race = races[getValue("rid")];
       var playerCount = race['player_count'];
-	  var maximum = race['treasury']/1000;
 
       var pCount = 0;
       var total = 0;
@@ -630,7 +614,7 @@ echo<<< EOQ
             total +=  new Number(subTot);
          }
       }
-      setText("total", total.toString() + '/' + maximum.toString());
+      setText("total",total);
    }
 
    function createTeam() {
@@ -655,22 +639,16 @@ echo<<< EOQ
       }
 
    }
-   
-   function changeLeague() {
-      // Reload page with new league rules when League dropdown changes
-	  // Set action field to 'leagueChange' for $_POST handling
-	  document.getElementById("action").value = 'leagueChange';
-	  // Submit form
-	  document.getElementById("form_team").submit();
-   }
 
-   </script>
-   <form method="POST" id="form_team">
-   <input type="hidden" id="action" name="action" value="create" />
-   <input type="hidden" id="raceid" name="raceid" value="" />
-   <div class='boxWide'>
-      <table class="common"><tr><td>
-      <b>$txtRaceSelectTitle</b>: <select id="rid" name="rid" onchange="changeRace(this.options[this.selectedIndex].value)">
+	</script>
+	<form method="POST" id="form_team">
+	<input type="hidden" id="action" name="action" value="create" />
+	<input type="hidden" id="raceid" name="raceid" value="" />
+	<div class='boxWide'>
+		<h3 class="boxTitle3">Team Details</h3>
+		<div class="padder10">
+			<table class="common"><tr><td>
+			<b>$txtRaceSelectTitle</b>: <select id="rid" name="rid" onchange="changeRace(this.options[this.selectedIndex].value)">
 EOQ;
       echo "<option value='-1'>$txtRaceSelectOption</option>";
       $i = 0;
@@ -680,15 +658,17 @@ EOQ;
             $i++;
       }
 echo<<< EOQ
-       </select></td>
+			</select></td>
 EOQ;
       if (isset($coach)) {
          $lgeDiv = $lng->getTrn('common/league') . '/' . $lng->getTrn('common/division');
 echo<<< EOQ
-      <td align="right"><b>$txtTeamName</b>:</td><td><input type="text" id="tname" name="tname" size="20" maxlength="50"></td>
-      <td align="right"><b>$lgeDiv</b>:</td><td><select name="lid_did" id="lid_did" onChange="changeLeague()">
+			<td align="right"><b>$txtTeamName</b>:</td><td><input type="text" id="tname" name="tname" size="20" maxlength="50"></td>
+			<td align="right"><b>$lgeDiv</b>:</td><td><select name="lid_did" id="lid_did">
 EOQ;
-         foreach ($leagues = Coach::allowedNodeAccess(Coach::NODE_STRUCT__TREE, $coach->coach_id, array(T_NODE_LEAGUE => array('tie_teams' => 'tie_teams'))) as $lid => $lstruct) {
+		  $leagues = Coach::allowedNodeAccess(Coach::NODE_STRUCT__TREE, $coach->coach_id, array(T_NODE_LEAGUE => array('tie_teams' => 'tie_teams')));
+			  print_r ($leagues);
+         foreach ($leagues as $lid => $lstruct) {
             if ($lstruct['desc']['tie_teams']) {
                echo "<OPTGROUP LABEL='".$lng->getTrn('common/league').": ".$lstruct['desc']['lname']."'>\n";
                foreach ($lstruct as $did => $dstruct) {
@@ -703,8 +683,8 @@ EOQ;
             }
          }
 echo<<< EOQ
-      </select></td>
-      <td><span id="createBtnTxt" title="$txtNoRaceSelected"><button id="createBtn" onclick="createTeam(); return false;" DISABLED>$txtCreateBtn</button></td>
+			</select></td>
+			<td><span id="createBtnTxt" title="$txtNoRaceSelected"><button id="createBtn" onclick="createTeam(); return false;" DISABLED>$txtCreateBtn</button></td>
 EOQ;
       }
 
@@ -718,31 +698,34 @@ EOQ;
    $txtDollar = $lng->getTrn('dollar', 'TeamCreator');
    $txtQuantity = $lng->getTrn('quantity', 'TeamCreator');
    $txtSubtotal = $lng->getTrn('subtotal', 'TeamCreator');
-   
 
 echo<<< EOQ
-       <td align="right" id="indTxt">$txtInducements:</td>
-       <td><input type="checkbox" id="induce" onChange="changeInduce(this.checked)" /><input type="hidden" id="oldInduce" value="false" /></td>
-       <td align="right"><b>$txtPlayerCount</b>:</td><td><div id="pcnt"></div></td>
-       <td align="right"><b>$txtTotal</b>:</td><td><div id="total"></div></td>
-       </tr></table>
-   </div>
-   <div class="boxWide">
-   <table class="common" id="teamTable">
-      <tr class="commonhead">
-         <th>$txtPos</th>
-         <th>MA</th>
-         <th>ST</th>
-         <th>AG</th>
-         <th>Av</th>
-         <th>$txtSkills</th>
-         <th>$txtNorm</th>
-         <th>$txtDoub</th>
-         <th>$txtDollar</th>
-         <th>$txtQuantity</th>
-         <th>$txtSubtotal</th>
-      </tr>
-   </table>
+		<td align="right" id="indTxt">$txtInducements:</td>
+		<td><input type="checkbox" id="induce" onChange="changeInduce(this.checked)" /><input type="hidden" id="oldInduce" value="false" /></td>
+		<td align="right"><b>$txtPlayerCount</b>:</td><td><div id="pcnt"></div></td>
+		<td align="right"><b>$txtTotal</b>:</td><td><div id="total"></div></td>
+		</tr></table>
+		</div>
+	</div>
+	<div class="boxWide">
+		<h3 class="boxTitle1">Avalaible Players</h3>
+		<div class="padder10">
+			<table class="common" id="teamTable">
+				<tr class="commonhead">
+					<th>$txtPos</th>
+					<th>MA</th>
+					<th>ST</th>
+					<th>AG</th>
+					<th>Av</th>
+					<th>$txtSkills</th>
+					<th>$txtNorm</th>
+					<th>$txtDoub</th>
+					<th>$txtDollar</th>
+					<th>$txtQuantity</th>
+					<th>$txtSubtotal</th>
+				</tr>
+			</table>
+		</div>
    </div>
    </form>
 EOQ;

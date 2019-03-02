@@ -188,7 +188,7 @@ public static function installProcsAndFuncs($install = true)
             MAX(date_played) as EndDate,
             COUNT(*) as games
         FROM (REGEX_REPLACE_TBL2) AS TBL2
-        GROUP BY result, RunGroup
+        GROUP BY result, RunGroup, date_played
         ORDER BY date_played
     ';
     $streaks_final = '

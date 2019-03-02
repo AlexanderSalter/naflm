@@ -3,7 +3,7 @@
 
 <en-GB>
 
-<name>Find coach or team</name>
+<name>Find</name>
 
 <search_tname>Search for team</search_tname>
 <search_cname>Search for coach</search_cname>
@@ -11,7 +11,7 @@
 </en-GB>
 <es-ES>
 
-<name>Encontrar entrenador o equipo</name>
+<name>Encontrar</name>
 
 <search_tname>Buscar equipo</search_tname>
 <search_cname>Buscar entrenador</search_cname>
@@ -21,7 +21,7 @@
 
 <fr-FR>
 
-<name>Chercher un coach ou une &amp;eacute;quipe</name>
+<name>Chercher</name>
 
 <search_tname>Chercher une &amp;eacute;quipe</search_tname>
 <search_cname>Chercher un coach</search_cname>

@@ -68,26 +68,6 @@ if ($_VISSTATE['COOCKIE'] || $_VISSTATE['POST_IN'] || $_VISSTATE['POST_OUT']) {
     setupGlobalVars(T_SETUP_GLOBAL_VARS__POST_COACH_LOGINOUT);
 }
 
-if($coach && $coach->isGlobalAdmin()) {
-    if(!isset($db_version)) {
-        echo '<div class="messagecontainer red">Your desired database version cannot be determined. Please ensure $db_version is set to a value in settings.php. If you aren\'t certain what to set it to, ask a NAFLM developer. 101 could be an appropriate default.</div>';
-    } else {
-        $databaseVersion = SQLUpgrade::getCurrentDatabaseVersion();
-        $fromVersion = $databaseVersion ? $databaseVersion : '075-080'; // set to earliest auto-upgrade version by default
-        
-        if(!$databaseVersion || $fromVersion < $db_version) {
-            echo '<div class="messagecontainer lightgreen">';
-        
-            if(!$databaseVersion)
-                echo '<div>Your database version cannot be determined. Your system will run <strong>all</strong> automatic upgrades.</div>';
-            echo '<div>Your database will now be upgraded to version ' . $db_version . '.</div>';
-            
-            upgrade_database_to_version($db_version, $fromVersion);
-            echo '</div>';
-        }
-    }
-}
-
 if(Mobile::isMobile()) {
 	HTMLOUT::mobile_frame_begin(); # Make page frame, banner and menu.
 	MTS('Header loaded, login auth, html frame generated');
@@ -114,7 +94,7 @@ if(Mobile::isMobile()) {
         case 'admin':           sec_admin();            break;
         case 'teamlist':        sec_teamlist();         break;
         case 'coachlist':       sec_coachlist();        break;
-        case 'rules':           sec_rules();            break;
+        //case 'rules':           sec_rules();            break;
         case 'about':           sec_about();            break;
         case 'matches':         sec_matcheshandler();   break; // Tournaments, matches, match reports, recent matches, upcoming matches etc.
         case 'objhandler':      sec_objhandler();       break; // Object profiles, object standings.
@@ -126,5 +106,4 @@ if(Mobile::isMobile()) {
 HTMLOUT::frame_end(); // Spit out all the end-tags.
 mysql_close($conn);
 MTS('END OF SCRIPT');
-
 

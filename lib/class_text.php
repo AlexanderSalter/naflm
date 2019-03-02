@@ -141,7 +141,7 @@ class TextSubSys
                 $o->cssidx    = T_HTMLBOX_MATCH; // CSS box index
                 $o->type      = T_TEXT_MATCH_SUMMARY;
                 $o->author    = get_alt_col('coaches', 'coach_id', $m->submitter_id, 'name');
-                $o->title     = "Match: $m->team1_name $m->team1_score&mdash;$m->team2_score $m->team2_name";
+                $o->title     = "Match: $m->team1_name [ $m->team1_score : $m->team2_score ] $m->team2_name";
                 $o->message   = $m->getText();
                 $o->date      = $m->date_played;
                 $o->pinned    = 0; // Not allowed for other types than board messages

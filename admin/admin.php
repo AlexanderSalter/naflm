@@ -56,7 +56,7 @@ function sec_admin() {
         default:            fatal('The requested admin page does not exist.');
     }
     echo "<br><br>";
-    HTMLOUT::dnt();
+    //HTMLOUT::dnt();
 }
 
 ?>

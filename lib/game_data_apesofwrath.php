@@ -98,3 +98,4 @@ $DEA['Simyin'] = array (
       )
 );
 
+array_push($stars['Horatio X. Schottenheim (Coaching Staff)']['races'],   T_RACE_APESOFWRATH);

@@ -28,8 +28,11 @@ public static function main($argv) # argv = argument vector (array).
         });
     </script>
     
-    <div class='boxCommon'>
+    <div class='boxWide boxTextCenter'>
         <h3 class='boxTitle<?php echo T_HTMLBOX_COACH;?>'><?php echo $lng->getTrn('name', 'Search');?></h3>
+		<div class='boxBody'>
+			Type the Team name or Coach name in one of the boxes below, results will be shown as you type.
+		</div>
         <div class='boxBody'>
             <?php echo $lng->getTrn('search_tname', 'Search');?><br>
             <input id='team' type="text" name="team" size="30" maxlength="50"><br>

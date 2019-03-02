@@ -119,7 +119,7 @@ public static function standings($node = false, $node_id = false)
     global $lng, $settings;
 
     title($lng->getTrn('menu/statistics_menu/team_stn'));
-    echo $lng->getTrn('common/notice_simul')."<br><br>\n";
+    //echo $lng->getTrn('common/notice_simul')."<br><br>\n";
 
     list($teams, $sortRule) = HTMLOUT::standings(STATS_TEAM,$node,$node_id,array('url' => urlcompile(T_URL_STANDINGS,T_OBJ_TEAM,false,false,false), 'hidemenu' => false, 'return_objects' => true));
 
@@ -299,7 +299,6 @@ public function handleActions($ALLOW_EDIT)
                 status($team->setff_bought($_POST['amount']));
                 SQLTriggers::run(T_SQLTRIG_TEAM_DPROPS, array('obj' => T_OBJ_TEAM, 'id' => $team->team_id));
                 break;
-            case 'removeNiggle': status($p->removeNiggle()); break;
         }
     }
 
@@ -334,7 +333,7 @@ private function _loadPlayers($DETAILED)
 
 private function _roster($ALLOW_EDIT, $DETAILED, $players)
 {
-    global $rules, $settings, $lng, $skillididx, $coach;
+    global $rules, $settings, $lng, $skillididx;
     $team = $this; // Copy. Used instead of $this for readability.
 
     /******************************
@@ -343,6 +342,7 @@ private function _roster($ALLOW_EDIT, $DETAILED, $players)
      *
      ******************************/
 
+	$row_number = -1;
     foreach ($players as $p) {
 
         /*
@@ -350,8 +350,6 @@ private function _roster($ALLOW_EDIT, $DETAILED, $players)
         */
         $p->name = preg_replace('/\s/', '&nbsp;', $p->name);
         $p->position = preg_replace('/\s/', '&nbsp;', $p->position);
-        $p->info = '<i class="icon-info"></i>';
-        $p->team_id = $team->team_id;
 
         /*
             Colors
@@ -359,7 +357,14 @@ private function _roster($ALLOW_EDIT, $DETAILED, $players)
 
         // Fictive player color fields used for creating player table.
         $p->HTMLfcolor = '#000000';
-        $p->HTMLbcolor = COLOR_HTML_NORMAL;
+		$row_color = "";
+				if($rownumber % 2 == 0){ 
+					$row_color = "#e9f5fb";  
+				} 
+				else{ 
+					$row_color = "white"; 
+				} 
+        $p->HTMLbcolor = $row_color;
 
         if     ($p->is_sold && $DETAILED)   $p->HTMLbcolor = COLOR_HTML_SOLD; # Sold has highest priority.
         elseif ($p->is_dead && $DETAILED)   $p->HTMLbcolor = COLOR_HTML_DEAD;
@@ -433,6 +438,7 @@ private function _roster($ALLOW_EDIT, $DETAILED, $players)
             ';
         }
         $p->skills .= $x;
+		$rownumber ++;
     }
 
     /* If enabled add stars and summed mercenaries entries to the roster */
@@ -442,9 +448,7 @@ private function _roster($ALLOW_EDIT, $DETAILED, $players)
         $stars = array();
         foreach (Star::getStars(STATS_TEAM, $team->team_id, false, false) as $s) {
             $s->name = preg_replace('/\s/', '&nbsp;', $s->name);
-            $s->info = '<i class="icon-info"></i>';
             $s->player_id = $s->star_id;
-            $s->team_id = $team->team_id;
             $s->nr = 0;
             $s->position = "<table style='border-spacing:0px;'><tr><td><img align='left' src='$s->icon' alt='player avatar'></td><td><i>Star&nbsp;player</i></td></tr></table>";
             $s->setSkills(true);
@@ -474,10 +478,8 @@ private function _roster($ALLOW_EDIT, $DETAILED, $players)
             $smerc->skills += $merc->skills;
         }
         $smerc->player_id = ID_MERCS;
-        $smerc->team_id = $team->team_id;
         $smerc->nr = 0;
         $smerc->name = 'All&nbsp;mercenary&nbsp;hirings';
-        $smerc->info = '<i class="icon-info"></i>';
         $smerc->position = "<i>Mercenaries</i>";
         $smerc->mv_cas = "$smerc->mv_bh/$smerc->mv_si/$smerc->mv_ki";
         $smerc->ma = '-';
@@ -502,15 +504,10 @@ private function _roster($ALLOW_EDIT, $DETAILED, $players)
      ******************************/
 
     title($team->name . (($team->is_retired) ? ' <font color="red"> (Retired)</font>' : ''));
-    
-    $allowEdit = (isset($coach) && $coach)
-        ? $coach->isMyTeam($team->team_id) || $coach->mayManageObj(T_OBJ_TEAM, $team->team_id)
-        : false;
 
     $fields = array(
-        'nr'        => array('desc' => '#', 'editable' => 'updatePlayerNumber', 'javaScriptArgs' => array('team_id', 'player_id'), 'editableClass' => 'number', 'allowEdit' => $allowEdit),
-        'name'      => array('desc' => $lng->getTrn('common/name'), 'editable' => 'updatePlayerName', 'javaScriptArgs' => array('team_id', 'player_id'), 'allowEdit' => $allowEdit),
-        'info'      => array('desc' => '', 'nosort' => true, 'icon' => true, 'href' => array('link' => urlcompile(T_URL_PROFILE,T_OBJ_PLAYER,false,false,false), 'field' => 'obj_id', 'value' => 'player_id')),
+        'nr'        => array('desc' => '#'),
+        'name'      => array('desc' => $lng->getTrn('common/name'), 'href' => array('link' => urlcompile(T_URL_PROFILE,T_OBJ_PLAYER,false,false,false), 'field' => 'obj_id', 'value' => 'player_id')),
         'position'  => array('desc' => $lng->getTrn('common/pos'), 'nosort' => true),
         'ma'        => array('desc' => 'Ma'),
         'st'        => array('desc' => 'St'),
@@ -527,7 +524,45 @@ private function _roster($ALLOW_EDIT, $DETAILED, $players)
         'value'     => array('desc' => $lng->getTrn('common/value'), 'kilo' => true, 'suffix' => 'k'),
     );
 
-    echo "<a href=".urlcompile(T_URL_PROFILE,T_OBJ_TEAM,$this->team_id,false,false)."&amp;detailed=".(($DETAILED) ? 0 : 1).">".$lng->getTrn('profile/team/viewtoggle')."</a><br><br>\n";
+	?>
+	<div class="boxWide">
+		<div class="icon_text">
+		<?php
+		echo "<a class='icon_text_link' href=".urlcompile(T_URL_PROFILE,T_OBJ_TEAM,$this->team_id,false,false)."&amp;detailed=".(($DETAILED) ? 0 : 1).">[".$lng->getTrn('profile/team/viewtoggle')."]</a>\n";
+		?>
+		</div>
+		<h3 class="boxTitle1">Team Roster</h3>
+		<div class="padder10">
+			<table class="text">
+				<tr>
+					<td style="width: 50%;"> </td>
+					<td style="">Legend:</td>
+		<?php
+		if ($DETAILED) {
+		?>
+					<td style="background-color: <?php echo COLOR_HTML_READY;   ?>;"><font color='black'><b>&nbsp;Ready&nbsp;</b></font></td>
+					<td style="background-color: <?php echo COLOR_HTML_MNG;     ?>;"><font color='black'><b>&nbsp;MNG&nbsp;</b></font></td>
+					<td style="background-color: <?php echo COLOR_HTML_JOURNEY; ?>;"><font color='black'><b>&nbsp;Journey&nbsp;</b></font></td>
+					<td style="background-color: <?php echo COLOR_HTML_JOURNEY_USED; ?>;"><font color='black'><b>&nbsp;Used&nbsp;journey&nbsp;</b></font></td>
+					<td style="background-color: <?php echo COLOR_HTML_DEAD;    ?>;"><font color='black'><b>&nbsp;Dead&nbsp;</b></font></td>
+					<td style="background-color: <?php echo COLOR_HTML_SOLD;    ?>;"><font color='black'><b>&nbsp;Sold&nbsp;</b></font></td>
+					<td style="background-color: <?php echo COLOR_HTML_STARMERC;?>;"><font color='black'><b>&nbsp;Star/merc&nbsp;</b></font></td>
+					<td style="background-color: <?php echo COLOR_HTML_NEWSKILL;?>;"><font color='black'><b>&nbsp;New&nbsp;skill&nbsp;</b></font></td>
+		<?php
+		}
+		?>
+					<td style="background-color: <?php echo COLOR_HTML_CHR_EQP1;   ?>;"><font color='black'><b>&nbsp;Stat&nbsp;=&nbsp;+1&nbsp;</b></font></td>
+					<td style="background-color: <?php echo COLOR_HTML_CHR_GTP1;     ?>;"><font color='black'><b>&nbsp;Stat&nbsp;>&nbsp;+1&nbsp;</b></font></td>
+					<td style="background-color: <?php echo COLOR_HTML_CHR_EQM1; ?>;"><font color='black'><b>&nbsp;Stat&nbsp;=&nbsp;-1&nbsp;</b></font></td>
+					<td style="background-color: <?php echo COLOR_HTML_CHR_LTM1; ?>;"><font color='black'><b>&nbsp;Stat&nbsp;<&nbsp;-1&nbsp;</b></font></td>
+					<td style="background-color: <?php echo COLOR_HTML_CHR_BROKENLIMIT;    ?>;"><font color='black'><b>&nbsp;Stat&nbsp;Under&nbsp;Limit&nbsp;</b></font></td>
+					<td style="width: 50%;"> </td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<?php
     HTMLOUT::sort_table(
         $team->name.' roster',
         urlcompile(T_URL_PROFILE,T_OBJ_TEAM,$team->team_id,false,false).(($DETAILED) ? '&amp;detailed=1' : '&amp;detailed=0'),
@@ -537,28 +572,6 @@ private function _roster($ALLOW_EDIT, $DETAILED, $players)
         (isset($_GET['sort'])) ? array((($_GET['dir'] == 'a') ? '+' : '-') . $_GET['sort']) : array(),
         array('color' => ($DETAILED) ? true : false, 'doNr' => false, 'noHelp' => true)
     );
-
-    ?>
-    <table class="text">
-        <tr>
-            <td style="width: 100%;"> </td>
-            <?php
-            if ($DETAILED) {
-                ?>
-                <td style="background-color: <?php echo COLOR_HTML_READY;   ?>;"><font color='black'><b>&nbsp;Ready&nbsp;</b></font></td>
-                <td style="background-color: <?php echo COLOR_HTML_MNG;     ?>;"><font color='black'><b>&nbsp;MNG&nbsp;</b></font></td>
-                <td style="background-color: <?php echo COLOR_HTML_JOURNEY; ?>;"><font color='black'><b>&nbsp;Journey&nbsp;</b></font></td>
-                <td style="background-color: <?php echo COLOR_HTML_JOURNEY_USED; ?>;"><font color='black'><b>&nbsp;Used&nbsp;journey&nbsp;</b></font></td>
-                <td style="background-color: <?php echo COLOR_HTML_DEAD;    ?>;"><font color='black'><b>&nbsp;Dead&nbsp;</b></font></td>
-                <td style="background-color: <?php echo COLOR_HTML_SOLD;    ?>;"><font color='black'><b>&nbsp;Sold&nbsp;</b></font></td>
-                <td style="background-color: <?php echo COLOR_HTML_STARMERC;?>;"><font color='black'><b>&nbsp;Star/merc&nbsp;</b></font></td>
-                <td style="background-color: <?php echo COLOR_HTML_NEWSKILL;?>;"><font color='black'><b>&nbsp;New&nbsp;skill&nbsp;</b></font></td>
-                <?php
-            }
-            ?>
-        </tr>
-    </table>
-    <?php
 }
 
 private function _menu($ALLOW_EDIT, $DETAILED)
@@ -659,7 +672,7 @@ border-bottom:0px;border-left:0px;border-top:0px;border-right:0px;
 #cycolors .grey7 a {top:96px;left: 112px;}
 </style>
 
-    <ul class="css3menu1 topmenu" style="position:static; z-index:0;">
+    <ul id="css3menu1" class="topmenu" style="position:static; z-index:0;">
         <li class="topfirst"><a href="<?php echo $url.'&amp;subsec=man';?>"><?php echo $lng->getTrn('profile/team/tmanage');?></a></li>
         <li class="topmenu"><a href="<?php echo $url.'&amp;subsec=news';?>"><?php echo $lng->getTrn('profile/team/news');?></a></li>
         <li><a href="<?php echo $url.'&amp;subsec=about';?>"><?php echo $lng->getTrn('common/about');?></a></li>
@@ -1035,7 +1048,6 @@ private function _actionBoxes($ALLOW_EDIT, $players)
                         'extra_skills'      => $lng->getTrn($base.'/box_admin/extra_skills'),
                         'ach_skills'        => $lng->getTrn($base.'/box_admin/ach_skills'),
                         'ff'                => $lng->getTrn($base.'/box_admin/ff'),
-                        'removeNiggle'      => $lng->getTrn($base.'/box_admin/removeNiggle'),
                     );
 
                     // Set default choice.
@@ -1309,31 +1321,6 @@ private function _actionBoxes($ALLOW_EDIT, $players)
                                 ?>
                                 </select>
                                 <input type="hidden" name="type" value="ach_skills">
-                                <?php
-                                break;
-                                
-                            /***************
-                             * Remove niggling injuries
-                             **************/
-
-                            case 'removeNiggle':
-                                echo $lng->getTrn('profile/team/box_admin/desc/removeNiggle');
-                                ?>
-                                <hr><br>
-                                <?php echo $lng->getTrn('common/player');?>:<br>
-                                <select name="player">
-                                <?php
-                                $DISABLE = true;
-                                foreach ($players as $p) {
-                                    if ($p->is_sold || $p->is_dead || $p->is_journeyman || $p->inj_ni == 0)
-                                        continue;
-
-                                    echo "<option value='$p->player_id'>$p->nr $p->name</option>\n";
-                                    $DISABLE = false;
-                                }
-                                ?>
-                                </select>
-                                <input type="hidden" name="type" value="removeNiggle">
                                 <?php
                                 break;
                         }

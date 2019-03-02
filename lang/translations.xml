@@ -58,11 +58,8 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
     <retired>Retired</retired>
     <skills>Skills</skills>
     <skill>Skill</skill>
-    <normal>Normal</normal>
-    <double>Double</double>
     <injs>Injuries</injs>
     <pos>Position</pos>
-    <maxqty>Max. qty</maxqty>
     <price>Price</price>
     <number>Number</number>
     <opponent>Opponent</opponent>
@@ -108,9 +105,6 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
     <races>Races</races>
     <star>Star</star>
     <stars>Stars</stars>
-
-    <roster>Roster</roster>
-    <availablestars>Available Star Players</availablestars>
     
     <won>Won</won>
     <lost>Lost</lost>
@@ -120,10 +114,6 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
     <playedtours>Tours played</playedtours>
     <wontours>Won tours</wontours>
     
-    <ma>Ma</ma>
-    <st>St</st>
-    <ag>Ag</ag>
-    <av>Av</av>
     <ready>Ready</ready>
     <dead>Dead</dead>
     <sold>Sold</sold>
@@ -364,7 +354,6 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
             <extra_skills>Manage extra player skills</extra_skills>
             <ach_skills>Remove ach. player skills</ach_skills>
             <ff>Manage team fan factor</ff>
-            <removeNiggle>Remove player niggle</removeNiggle>
 
             <desc>
                 <unhire_journeyman> <![CDATA[ Regret permanently hiring a journeyman.<br> This only works on players from a 0-16 allowed position on your team's roster. ]]> </unhire_journeyman>
@@ -376,7 +365,6 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
                 <extra_skills> <![CDATA[ Manage a player's extra skills. ]]> </extra_skills>
                 <ach_skills> <![CDATA[ Remove a players achieved skills. This makes the player able to rechoose a skill. ]]> </ach_skills>
                 <ff> <![CDATA[ Make changes to team's fan factor .]]> </ff>
-                <removeNiggle> <![CDATA[ Remove one of a players niggling injuries.]]> </removeNiggle>
             </desc>
         </box_admin>
     </team>
@@ -543,7 +531,7 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
   <vampire>Vampire</vampire>
   <skaven>Skaven</skaven>
   <woodelf>Wood Elf</woodelf>
-  <chaospact>Chaos Pact</chaospact>
+  <chaosrenegades>Chaos Renegades</chaosrenegades>
   <underworld>Underworld</underworld>
   <simyin>Simyin</simyin>
   <slann>Slann</slann>
@@ -559,10 +547,11 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
   <chaoswarrior>Chaos Warrior</chaoswarrior>
   <minotaur>Minotaur</minotaur>
 
-  <marauder>Marauder</marauder>
+  <humanrenegade>Human Renegade</humanrenegade>
   <goblinrenegade>Goblin Renegade</goblinrenegade>
   <skavenrenegade>Skaven Renegade</skavenrenegade>
   <darkelfrenegade>Dark Elf Renegade</darkelfrenegade>
+  <orcrenegade>Orc Renegade</orcrenegade>
   <chaostroll>Chaos Troll</chaostroll>
   <chaosogre>Chaos Ogre</chaosogre>
   <necromanticwerewolf>Necromantic Werewolf</necromanticwerewolf>
@@ -588,8 +577,6 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
   <looney>Looney</looney>
   <fanatic>Fanatic</fanatic>
   <troll>Troll</troll>
-  <deathdiver>Death Diver</deathdiver>
-  <ooligan>'Ooligan</ooligan>
 
   <halfling>Halfling</halfling>
   <treeman>Treeman</treeman>
@@ -654,9 +641,6 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
 </position>
 
 <skill>
-    <weepingblades>Weeping Blades</weepingblades>
-  <timmmber>Timmm-ber!</timmmber>
-    <monstrousmouth>Monstrous Mouth</monstrousmouth>
   <block>Block</block>
   <dauntless>Dauntless</dauntless>
   <dirtyplayer>Dirty Player</dirtyplayer>
@@ -732,7 +716,6 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
   <throwteammate>Throw Team-Mate</throwteammate>
   <titchy>Titchy</titchy>
   <wildanimal>Wild Animal</wildanimal>
-  <swoop>Swoop</swoop>
 </skill>
 
 <starplayer>
@@ -794,12 +777,6 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
     <willowrosebark>Willow Rosebark</willowrosebark>
     <zaratheslayer>Zara the Slayer</zaratheslayer>
     <zzhargmadeye>Zzharg Madeye</zzhargmadeye>
-    
-    <bilerotvomitflesh>Bilerot Vomitflesh</bilerotvomitflesh>
-    <franknstein>Frank N Stein</franknstein>
-    <rastatailspike>Rasta Tailspike</rastatailspike>
-    <gufflepusmaw>Guffle Pusmaw</gufflepusmaw>
-
 </starplayer>
 
 <daysofweek>
@@ -1333,7 +1310,7 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
   <vampire>Vampiros</vampire>
   <skaven>Skaven</skaven>
   <woodelf>Elfos Silvanos</woodelf>
-  <chaospact>Pacto del Caos</chaospact>
+  <chaosrenegades>Caos Renegados</chaosrenegades>
   <underworld>Inframundo</underworld>
   <simyin>Simyin</simyin>
   <slann>Slann</slann>
@@ -1349,10 +1326,11 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
   <chaoswarrior>Guerrero del Caos</chaoswarrior>
   <minotaur>Minotauro</minotaur>
 
-  <marauder>Bárbaro</marauder>
+  <humanrenegade>Renegado Humano</humanrenegade>
   <goblinrenegade>Renegado Goblin</goblinrenegade>
   <skavenrenegade>Renegado Skaven</skavenrenegade>
   <darkelfrenegade>Renegado Elfo Oscuro</darkelfrenegade>
+  <orcrenegade>Renegado Orco</orcrenegade>
   <chaostroll>Troll del Caos</chaostroll>
   <chaosogre>Ogre del Caos</chaosogre>
   <necromanticwerewolf>Hombre Lobo Nigromántico</necromanticwerewolf>
@@ -1442,9 +1420,6 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
 </position>
 
 <skill>
-      <weepingblades>Daga Envenenada</weepingblades>
-  <timmmber>¡Árbol va!</timmmber>
-  <monstrousmouth>Boca Descomunal</monstrousmouth>
   <block>Placar</block>
   <dauntless>Agallas</dauntless>
   <dirtyplayer>Juego Sucio</dirtyplayer>
@@ -1581,12 +1556,6 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
     <willowrosebark>Willow Pielderosa</willowrosebark>
     <zaratheslayer>Zara la Cazadora</zaratheslayer>
     <zzhargmadeye>Zzharg Ojorrabioso</zzhargmadeye>
-        
-    <bilerotvomitflesh>Bilerot Vomitflesh</bilerotvomitflesh>
-    <franknstein>Frank N Stein</franknstein>
-    <rastatailspike>Rasta Tailspike</rastatailspike>
-    <gufflepusmaw>Guffle Pusmaw</gufflepusmaw>
-    
 </starplayer>
 
 <daysofweek>
@@ -1656,11 +1625,8 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
     <page>Seite</page>
     <retired>Im Ruhestand</retired>
     <skills>Fähigkeiten</skills>
-    <normal>Normal</normal>
-    <double>Pasch</double>
     <injs>Verletzungen</injs>
     <pos>Position</pos>
-    <maxqty>Max.Anz.</maxqty>
     <price>Preis</price>
     <number>Nummer</number>
     <opponent>Gegner</opponent>
@@ -1699,9 +1665,6 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
     <star>Star</star>
     <stars>Stars</stars>
     
-    <roster>Spielerpositionen</roster>
-    <availablestars>Verfügbare Starspieler</availablestars>    
-    
     <won>Gewonnen</won>
     <lost>Verloren</lost>
     <draw>Unentschieden</draw>
@@ -1709,11 +1672,7 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
     <played>Gespielt</played>
     <playedtours>Turniere gespielt</playedtours>
     <wontours>Turniere gewonnen</wontours>
-
-    <ma>BE</ma>
-    <st>ST</st>
-    <ag>GE</ag>
-    <av>RW</av>
+    
     <ready>Bereit</ready>
     <dead>Tot!</dead>
     <sold>Verkauft</sold>
@@ -1750,12 +1709,6 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
     <matchavg><![CDATA[Durchschnitt der Begegnung]]></matchavg> <!-- "Match avg." -->
     
 </common>
-    
-<skill>
-    <weepingblades>Triefender Dolch</weepingblades>
-    <timmmber>Baum fällt!</timmmber>
-    <monstrousmouth>Monströses Maul</monstrousmouth>
-</skill>
 
 <!-- Link names for menu elements -->
 <menu>
@@ -2187,7 +2140,7 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
         <opponent>Adversaire</opponent>
         <reroll>Relance</reroll>
         <apothecary>Apothicaire</apothecary>
-        <ass_coach>Assistant coach</ass_coach>
+        <ass_coach>Coach Assistant</ass_coach>
         <cheerleader>Pom Pom Girl</cheerleader>
         <journeyman>Journalier</journeyman>
         <options>Options</options>
@@ -2233,15 +2186,6 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
         <dead>Mort</dead>
         <sold>Vendu</sold>
         <bought>Acheté</bought>
-		<ma>Mv</ma>
-		<st>F</st>
-		<ag>Ag</ag>
-		<av>Ar</av>
-		<english>Anglais</english>
-		<spanish>Espagnol</spanish>
-		<german>Allemand</german>
-		<french>Français</french>
-		<italian>Italien</italian>
         <td>Touchdowns</td>
         <intcpt>Interceptions</intcpt>
         <cp>Réussites</cp>
@@ -2256,7 +2200,7 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
         <notice_simul>&lt;i&gt;Note&lt;/i&gt;: Les tables ci-dessous sont triées simultanément.</notice_simul>
         <notice_spp>&lt;i&gt;Note&lt;/i&gt;: &lt;b&gt;Si&lt;/b&gt; les stars peuvent gagner des compétences, elles auront le montant correspondant dans la colonne.</notice_spp>
         <sortedagainst>Trié par</sortedagainst>
-        <confirm_box>Etes-vous sûr ?</confirm_box>
+        <confirm_box>Etes-vous sur ?</confirm_box>
 <!-- nodeSelector() -->
         <displayfrom>Afficher depuis</displayfrom>
         <type>Type</type>
@@ -2294,13 +2238,13 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
         <star_stn>Position de la Star</star_stn>
 </statistics_menu>
 <admin_menu>
-        <name>Administration</name>
+        <name>Administración</name>
         <nodes>Ligues, divisions, tournois</nodes>
         <ct_man>Gérer : Coachs &amp; équipes</ct_man>
         <usr_man>Gerer : Utilisateurs</usr_man>
         <import>Importer une équipe</import>
         <schedule>Planifier un match</schedule>
-        <cpanel>Panneau principal OBBLM</cpanel>
+        <cpanel>OBBLM panneau principal</cpanel>
 </admin_menu>
         <plugins>Modules</plugins>
         <rules>Règles</rules>
@@ -2430,8 +2374,8 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
 </box_tm>
 <box_admin>
         <title>Outils d'Administration</title>
-        <unhire_journeyman>Annuler l'embauche d'un journalier</unhire_journeyman>
-        <unsell_player>Annuler la vente d'un joueur</unsell_player>
+        <unhire_journeyman>Désembaucher un journalier</unhire_journeyman>
+        <unsell_player>Ré-embaucher un joueur</unsell_player>
         <unbuy_goods>Annuler les achats de bien d'équipe.</unbuy_goods>
         <bank>Compte en banque</bank>
         <spp>Gérer l'expérience bonus</spp>
@@ -2439,8 +2383,8 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
         <extra_skills>Gérer les compétences suppl. des joueurs</extra_skills>
         <ach_skills>Retirer des compétences de joueurs</ach_skills>
 <desc>
-        <unhire_journeyman> Annuler l'embauche d'un journalier en tant que joueur.&lt;br&gt; Ne fonctionne que sur les positions 0-16 de la fiche d'équipe. </unhire_journeyman>
-        <unsell_player> Annuler le licenciement d'un joueur. </unsell_player> <unbuy_goods> Annuler l'achat de bien d'équipe. </unbuy_goods>
+        <unhire_journeyman> Revenir sur l'embauche d'un journalier en tant que joueur.&lt;br&gt; Ne fonctionne que sur les positions 0-16 de la fiche d'équipe. </unhire_journeyman>
+        <unsell_player> Revenir sur le licenciement d'un joueur. </unsell_player> <unbuy_goods> Revenir sur l'achat de bien d'équipe. </unbuy_goods>
         <unbuy_goods>Revenir sur l'achat de biens d'équipe</unbuy_goods>
         <bank> Modifier la trésorerie d'équipe. </bank>
         <spp> Gérer l'éxperience bonus d'un Joueur. </spp>
@@ -2572,7 +2516,7 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
         <vampire>Vampire</vampire>
         <skaven>Skaven</skaven>
         <woodelf>Elfe Sylvain</woodelf>
-        <chaospact>Pacte du Chaos</chaospact>
+        <chaosrenegades>Renégats du Chaos</chaosrenegades>
         <underworld>Bas fond</underworld>
         <slann>Slann</slann>
 </race>
@@ -2584,11 +2528,11 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
         <beastman>Homme-bête</beastman>
         <chaoswarrior>Guerrier du Chaos</chaoswarrior>
         <minotaur>Minotaure</minotaur>
-        <marauder>Maraudeur</marauder>
+        <humanrenegade>Renégat Humain</humanrenegade>
         <goblinrenegade>Renégat Gobelin</goblinrenegade>
         <skavenrenegade>Renégat Skaven</skavenrenegade>
+		<orcrenegade>Renégat Orque</orcrenegade>
         <darkelfrenegade>Renégat Elfe Noir</darkelfrenegade>
-		<orcrenegade>Renégat Orc</orcrenegade>
         <chaostroll>Troll du Chaos</chaostroll>
         <chaosogre>Ogre du Chaos</chaosogre>
         <necromanticwerewolf>Loup-Garou nécromantique</necromanticwerewolf>
@@ -2610,8 +2554,6 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
         <looney>Fanatique</looney>
         <fanatic>Fanatique</fanatic>
         <troll>Troll</troll>
-		<deathdiver>Plongeur de la mort</deathdiver>
-		<oligan>'Ooligan</oligan>
         <halfling>Halfling</halfling>
         <treeman>Homme-arbre</treeman>
         <ogre>Ogre</ogre>
@@ -2650,10 +2592,6 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
 </position>
 
 <skill>
-  <weepingblades>Dague suintante</weepingblades>
-  <timmmber>Timmm-ber!</timmmber>
-  <monstrousmouth>Grande Gueule</monstrousmouth>
-    
     <block>Blocage</block>
     <dauntless>Intrépidité</dauntless>
     <dirtyplayer>Joueur Vicieux</dirtyplayer>
@@ -2729,7 +2667,6 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
     <throwteammate>Lancer un Coéquipier</throwteammate>
     <titchy>Microbe</titchy>
     <wildanimal>Animal Sauvage</wildanimal>
-    <swoop>Planeur</swoop>
 </skill>
 
 <starplayer>
@@ -2789,19 +2726,13 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
     <willowrosebark>Willow Teinrose</willowrosebark>
     <zaratheslayer>Zara la tueuse</zaratheslayer>
     <zzhargmadeye>Zzharg Le Borgne</zzhargmadeye>
-    
-    <bilerotvomitflesh>Bilerot Vomitflesh</bilerotvomitflesh>
-    <franknstein>Frank N Stein</franknstein>
-    <rastatailspike>Rasta Tailspike</rastatailspike>
-    <gufflepusmaw>Guffle Pusmaw</gufflepusmaw>
-
 </starplayer>
 
 <daysofweek>
   <monday>Lundi</monday>
   <tuesday>Mardi</tuesday>
   <wednesday>Mercredi</wednesday>
-  <thursday>Jeudi</thursday>
+  <thursday>Jeudi></thursday>
   <friday>Vendredi</friday>
   <saturday>Samedi</saturday>
   <sunday>Dimanche</sunday>

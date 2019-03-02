@@ -346,7 +346,7 @@ public static function standings($obj, $node, $node_id, array $opts)
             : sort_rule($obj)
     );
     $set_avg = (isset($_GET['pms']) && $_GET['pms']); // Per match stats?
-    echo '<br><a href="'.$opts['url'].'&amp;pms='.(($set_avg) ? 0 : 1).'"><b>'.$lng->getTrn('common/'.(($set_avg) ? 'ats' : 'pms'))."</b></a><br><br>\n";
+    //echo '<a href="'.$opts['url'].'&amp;pms='.(($set_avg) ? 0 : 1).'"><b>'.$lng->getTrn('common/'.(($set_avg) ? 'ats' : 'pms'))."</b></a><br><br>\n";
     // Common $obj type fields.
     $fields = self::_getDefFields($obj, $sel_node, $sel_node_id);
     // Was a different (non-general) stats group selected?
@@ -586,96 +586,101 @@ public static function nodeSelector(array $opts)
     // Fetch contents of node selector
 #    $leagues = Coach::allowedNodeAccess(Coach::NODE_STRUCT__TREE, is_object($coach) ? $coach->coach_id : false);
     ?>
-    <form method="POST">
-    <?php 
-    echo $lng->getTrn('common/displayfrom');
-    ?>
-    <select <?php if ($hideNodes) {echo "style='display:none;'";}?> name="node" onChange="
-        selConst = Number(this.options[this.selectedIndex].value);
-        disableall();
-        switch(selConst)
-        {
-            case <?php echo T_NODE_TOURNAMENT;?>: document.getElementById('tour_in').style.display = 'inline'; break;
-            case <?php echo T_NODE_DIVISION;?>:   document.getElementById('division_in').style.display = 'inline'; break;
-            case <?php echo T_NODE_LEAGUE;?>:     document.getElementById('league_in').style.display = 'inline'; break;
-        }
-    ">
-        <?php
-        foreach (array(T_NODE_LEAGUE => $lng->getTrn('common/league'), T_NODE_DIVISION => $lng->getTrn('common/division'), T_NODE_TOURNAMENT => $lng->getTrn('common/tournament')) as $const => $name) {
-            echo "<option value='$const' ".(($_SESSION[$s_node] == $const) ? 'SELECTED' : '').">$name</option>\n";
-        }
-        ?>
-    </select>
-    <?php
-    if (!$hideNodes) {echo ":";}
-    echo self::nodeList(T_NODE_TOURNAMENT, 'tour_in',     array(), array(), array('all' => true, 'sel_id' => ($_SESSION[$s_node] == T_NODE_TOURNAMENT) ? $_SESSION[$s_node_id] : null, 'extra_tags' => array('style="display:none;"'),  'hide_empty' => array(T_NODE_DIVISION)));
-    echo self::nodeList(T_NODE_DIVISION,   'division_in', array(), array(), array('all' => true, 'sel_id' => ($_SESSION[$s_node] == T_NODE_DIVISION)   ? $_SESSION[$s_node_id] : null, 'extra_tags' => array('style="display:none;"'),  'empty_str' => array(T_NODE_LEAGUE => '')));
-    echo self::nodeList(T_NODE_LEAGUE,     'league_in',   array(), array(), array('all' => true, 'sel_id' => ($_SESSION[$s_node] == T_NODE_LEAGUE)     ? $_SESSION[$s_node_id] : null, 'extra_tags' => array('style="display:none;"'),  'empty_str' => array(T_NODE_LEAGUE => ''), 'allow_all' => true));
-    if ($setState) {
-        echo $lng->getTrn('common/type');
-        ?>
-        <select name="state_in" id="state_in">
-            <?php
-            echo "<option value='".T_STATE_ALLTIME."' ".(($_SESSION[$s_state] == T_STATE_ALLTIME) ? 'SELECTED' : '').">".$lng->getTrn('common/alltime')."</option>\n";
-            echo "<option value='".T_STATE_ACTIVE."'  ".(($_SESSION[$s_state] == T_STATE_ACTIVE) ? 'SELECTED' : '').">".$lng->getTrn('common/active')."</option>\n";
-            ?>
-        </select>
-        <?php
-    }
-    if ($setRace) {
-        echo $lng->getTrn('common/race');
-        ?>
-        <select name="race_in" id="race_in">
-            <?php
-            echo "<option style='font-weight: bold;' value='".T_RACE_ALL."'>-".$lng->getTrn('common/all')."-</option>\n";
-            foreach ($raceididx as $rid => $rname) {
-                echo "<option value='$rid'".(($_SESSION[$s_race] == $rid) ? 'SELECTED' : '').">$rname</option>\n";
-            }
-            ?>
-        </select>
-        <?php
-    }
-    if ($setSGrp) {
-        echo $lng->getTrn('common/sgrp');
-        ?>
-        <select name="sgrp_in" id="sgrp_in">
-            <?php
-            echo "<option value='GENERAL'>".$lng->getTrn('common/general')."</option>\n";
-            foreach (($settings['hide_ES_extensions']) ? array() : getESGroups(false) as $f) {
-                echo "<option value='$f'".(($_SESSION[$s_sgrp] == $f) ? 'SELECTED' : '').">$f</option>\n";
-            }
-            ?>
-        </select>
-        <?php
-    }
-    if ($setFFilter) {
-        echo $lng->getTrn('common/having');
-        $FFilterFields = self::_getDefFields($obj, $_SESSION[$s_node], $_SESSION[$s_node_id]);
-        if (!in_array($_SESSION[$s_ffilter_field], array_keys($FFilterFields))) {
-            $_SESSION[$s_ffilter_field] = $def_ffilter_field;
-            $_SESSION[$s_ffilter_ineq]  = $def_ffilter_ineq;
-            $_SESSION[$s_ffilter_limit] = $def_ffilter_limit;
-        }
-        ?>
-        <select name="ffilter_field_in" id="ffilter_field_in">
-            <?php
-            foreach ($FFilterFields as $f => $desc) {
-                echo "<option value='$f'".(($_SESSION[$s_ffilter_field] == $f) ? 'SELECTED' : '').">$desc[desc]</option>\n";
-            }
-            ?>
-        </select>
-        <select name="ffilter_ineq_in" id="ffilter_ineq_in">
-            <option value="<?php echo self::T_NS__ffilter_ineq_gt;?>" <?php echo ($_SESSION[$s_ffilter_ineq] == self::T_NS__ffilter_ineq_gt) ? 'SELECTED' : '';?>>>=</option>
-            <option value="<?php echo self::T_NS__ffilter_ineq_lt;?>" <?php echo ($_SESSION[$s_ffilter_ineq] == self::T_NS__ffilter_ineq_lt) ? 'SELECTED' : '';?>><=</option>
-        </select>
-        <input type='text' name="ffilter_limit_in" id="ffilter_limit_in" size='2' value="<?php echo $_SESSION[$s_ffilter_limit];?>">
-        <?php
-    }
-    ?>
-    &nbsp;
-    <input type="hidden" name="ANS" value="1">
-    <input type="submit" name="select" value="<?php echo $lng->getTrn('common/select');?>">
-    </form>
+    <div class='boxWide'>
+        <h3 class='boxTitle3'>Options</h3>
+        <div class='boxBody'>
+		<form method="POST">
+		<?php 
+		echo $lng->getTrn('common/displayfrom');
+		?>
+		<select <?php if ($hideNodes) {echo "style='display:none;'";}?> name="node" onChange="
+			selConst = Number(this.options[this.selectedIndex].value);
+			disableall();
+			switch(selConst)
+			{
+				case <?php echo T_NODE_TOURNAMENT;?>: document.getElementById('tour_in').style.display = 'inline'; break;
+				case <?php echo T_NODE_DIVISION;?>:   document.getElementById('division_in').style.display = 'inline'; break;
+				case <?php echo T_NODE_LEAGUE;?>:     document.getElementById('league_in').style.display = 'inline'; break;
+			}
+		">
+			<?php
+			foreach (array(T_NODE_LEAGUE => $lng->getTrn('common/league'), T_NODE_DIVISION => $lng->getTrn('common/division'), T_NODE_TOURNAMENT => $lng->getTrn('common/tournament')) as $const => $name) {
+				echo "<option value='$const' ".(($_SESSION[$s_node] == $const) ? 'SELECTED' : '').">$name</option>\n";
+			}
+			?>
+		</select>
+		<?php
+		if (!$hideNodes) {echo ":";}
+		echo self::nodeList(T_NODE_TOURNAMENT, 'tour_in',     array(), array(), array('all' => true, 'sel_id' => ($_SESSION[$s_node] == T_NODE_TOURNAMENT) ? $_SESSION[$s_node_id] : null, 'extra_tags' => array('style="display:none;"'),  'hide_empty' => array(T_NODE_DIVISION)));
+		echo self::nodeList(T_NODE_DIVISION,   'division_in', array(), array(), array('all' => true, 'sel_id' => ($_SESSION[$s_node] == T_NODE_DIVISION)   ? $_SESSION[$s_node_id] : null, 'extra_tags' => array('style="display:none;"'),  'empty_str' => array(T_NODE_LEAGUE => '')));
+		echo self::nodeList(T_NODE_LEAGUE,     'league_in',   array(), array(), array('all' => true, 'sel_id' => ($_SESSION[$s_node] == T_NODE_LEAGUE)     ? $_SESSION[$s_node_id] : null, 'extra_tags' => array('style="display:none;"'),  'empty_str' => array(T_NODE_LEAGUE => ''), 'allow_all' => true));
+		if ($setState) {
+			echo $lng->getTrn('common/type');
+			?>
+			<select name="state_in" id="state_in">
+				<?php
+				echo "<option value='".T_STATE_ALLTIME."' ".(($_SESSION[$s_state] == T_STATE_ALLTIME) ? 'SELECTED' : '').">".$lng->getTrn('common/alltime')."</option>\n";
+				echo "<option value='".T_STATE_ACTIVE."'  ".(($_SESSION[$s_state] == T_STATE_ACTIVE) ? 'SELECTED' : '').">".$lng->getTrn('common/active')."</option>\n";
+				?>
+			</select>
+			<?php
+		}
+		if ($setRace) {
+			echo $lng->getTrn('common/race');
+			?>
+			<select name="race_in" id="race_in">
+				<?php
+				echo "<option style='font-weight: bold;' value='".T_RACE_ALL."'>-".$lng->getTrn('common/all')."-</option>\n";
+				foreach ($raceididx as $rid => $rname) {
+					echo "<option value='$rid'".(($_SESSION[$s_race] == $rid) ? 'SELECTED' : '').">$rname</option>\n";
+				}
+				?>
+			</select>
+			<?php
+		}
+		if ($setSGrp) {
+			echo $lng->getTrn('common/sgrp');
+			?>
+			<select name="sgrp_in" id="sgrp_in">
+				<?php
+				echo "<option value='GENERAL'>".$lng->getTrn('common/general')."</option>\n";
+				foreach (($settings['hide_ES_extensions']) ? array() : getESGroups(false) as $f) {
+					echo "<option value='$f'".(($_SESSION[$s_sgrp] == $f) ? 'SELECTED' : '').">$f</option>\n";
+				}
+				?>
+			</select>
+			<?php
+		}
+		if ($setFFilter) {
+			echo $lng->getTrn('common/having');
+			$FFilterFields = self::_getDefFields($obj, $_SESSION[$s_node], $_SESSION[$s_node_id]);
+			if (!in_array($_SESSION[$s_ffilter_field], array_keys($FFilterFields))) {
+				$_SESSION[$s_ffilter_field] = $def_ffilter_field;
+				$_SESSION[$s_ffilter_ineq]  = $def_ffilter_ineq;
+				$_SESSION[$s_ffilter_limit] = $def_ffilter_limit;
+			}
+			?>
+			<select name="ffilter_field_in" id="ffilter_field_in">
+				<?php
+				foreach ($FFilterFields as $f => $desc) {
+					echo "<option value='$f'".(($_SESSION[$s_ffilter_field] == $f) ? 'SELECTED' : '').">$desc[desc]</option>\n";
+				}
+				?>
+			</select>
+			<select name="ffilter_ineq_in" id="ffilter_ineq_in">
+				<option value="<?php echo self::T_NS__ffilter_ineq_gt;?>" <?php echo ($_SESSION[$s_ffilter_ineq] == self::T_NS__ffilter_ineq_gt) ? 'SELECTED' : '';?>>>=</option>
+				<option value="<?php echo self::T_NS__ffilter_ineq_lt;?>" <?php echo ($_SESSION[$s_ffilter_ineq] == self::T_NS__ffilter_ineq_lt) ? 'SELECTED' : '';?>><=</option>
+			</select>
+			<input type='text' name="ffilter_limit_in" id="ffilter_limit_in" size='2' value="<?php echo $_SESSION[$s_ffilter_limit];?>">
+			<?php
+		}
+		?>
+		&nbsp;
+		<input type="hidden" name="ANS" value="1">
+		<input type="submit" name="select" value="<?php echo $lng->getTrn('common/select');?>">
+		</form>
+		</div>
+	</div>
     <script language="JavaScript" type="text/javascript">
         var open;
         <?php
@@ -883,6 +888,7 @@ public static function frame_begin($menu = true)
         <link type="text/css" href="css/stylesheet<?php echo $settings['stylesheet']; ?>.css" rel="stylesheet">
         <link type="text/css" href="css/league_override_<?php echo self::getSelectedNodeLidOrDefault(); ?>.css" rel="stylesheet">
         <link rel="alternate" type="application/rss+xml" title="RSS Feed"href="rss.xml">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
         <script type="text/javascript" src="lib/misc_functions.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>
@@ -899,25 +905,21 @@ public static function frame_begin($menu = true)
         });</script>
         
         <script type="text/javascript" src="js/app/ViewModel/Common/RegistrationViewModel.js"></script>
-        <script type="text/javascript" src="js/app/ViewModel/Common/PageViewModel.js"></script>
-        <script type="text/javascript" src="js/app/CustomBinders/EditableCustomBinder.js"></script>
-        
-        <script type="text/javascript">
-            $(document).ready(function() {
-                var leaguesJson = <?php echo json_encode(League::getLeaguesWithLocation()); ?>;
-                ko.applyBindings(new PageViewModel(leaguesJson));
-            });
-        </script>
     </head>
     <body>
         <div class="everything">
             <div class="banner">
             <f0> </f0><br><br><br>
             <f1><?php echo $settings['banner_title']; ?></f1><br>
-            <f2><?php echo $settings['banner_subtitle']; ?></f2></div>
+            <f2><?php echo $settings['banner_subtitle']; ?></f2>
+			</div>
+			<div class="page_title">
+				<?php echo $settings['league_name']; ?>
+			</div>
             <div class="menu">
                 <?php if ($menu) {HTMLOUT::make_menu();} ?>
-            </div> <!-- Menu div end -->
+            </div>
+			<!-- Menu div end -->
             <div class="section"> <!-- This container holds the section specific content -->
     <?php
     
@@ -937,6 +939,7 @@ public static function frame_begin($menu = true)
         <link type="text/css" href="css/stylesheet_default.css" rel="stylesheet">
         <link type="text/css" href="css/stylesheet<?php echo $settings['stylesheet']; ?>.css" rel="stylesheet">
         <link type="text/css" href="css/league_override_<?php echo self::getSelectedNodeLidOrDefault(); ?>.css" rel="stylesheet">
+
         <script type="text/javascript" src="lib/misc_functions.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
         <script type="text/javascript" src="js/lib/underscore-1.8.3.min.js"></script>
@@ -952,6 +955,8 @@ public static function frame_begin($menu = true)
         <script type="text/javascript" src="js/app/ViewModel/Mobile/MatchDialogViewModel.js"></script>
         <script type="text/javascript" src="js/app/ViewModel/Mobile/SelectedPlayerViewModel.js"></script>
         <script type="text/javascript" src="js/app/ViewModel/Common/RegistrationViewModel.js"></script>
+		
+		<script defer src="https://use.fontawesome.com/releases/v5.7.0/js/all.js" integrity="sha384-qD/MNBVMm3hVYCbRTSOW130+CWeRIKbpot9/gR1BHkd7sIct4QKhT1hOPd+2hO8K" crossorigin="anonymous"></script>
         
     </head>
     <body>
@@ -965,6 +970,21 @@ public static function frame_end()
                 <!-- Pseudo container to force parent container to have the correct height for (potential) floating children -->
                 <div style="clear: both;"></div>
             </div> <!-- End of section div -->
+			<div class="section footersection">
+				<div class="main_foot">
+					<?php
+					//HTMLOUT::dnt();
+					?>
+					<div class="main_foot_text">
+					<br>
+					This web site is completely unofficial and in no way endorsed by Games Workshop Limited.
+					<br>
+					Bloodquest, Blood Bowl, the Blood Bowl logo, The Blood Bowl Spike Device, Chaos, the Chaos device, the Chaos logo, Games Workshop, Games Workshop logo, Nurgle, the Nurgle device, Skaven, Tomb Kings, and all associated marks, names, races, race insignia, characters, vehicles, locations, units, illustrations and images from the Blood Bowl game, the Warhammer world are either (R), TM and/or (C) Games Workshop Ltd 2000-2006, variably registered in the UK and other countries around the world. Used without permission. No challenge to their status intended. All Rights Reserved to their respective owners.
+					<br>
+					FUMBBL icons are used with permission.  See 'about OBBLM' for credits.
+					</div>
+				</div>
+			</div>
         </div> <!-- End of everything div -->
     </body>
     </html>
@@ -976,29 +996,29 @@ private static function make_menu()
 {
     global $lng, $coach, $settings, $rules, $admin_menu;
     ?>
-    <ul class="css3menu1 topmenu">
-        <li class="topfirst"><a href="index.php?section=main"><?php echo $lng->getTrn('menu/home');?></a>
-		 <ul>
-            <?php 
-            if(Settings::getValueOrDefault('show-regional-menu', false)) { 
-                foreach(League::getLeaguesByLocation() as $locationName => $leagues) {
-                    echo '<li><a href="#">' . $locationName . ' ></a><ul>';
-                    
-                    foreach($leagues as $league) {
-                        echo '<li><a href="index.php?SLS_lid=' . $league->lid . '">' . $league->name . '</a></li>';
-                    }
-                    
-                    echo '</ul></li>';
-                }
-                if (isset($_SESSION['logged_in'])) {
-                    echo '<li><a href="index.php?section=requestleague">Request a League</a></li>';
-                } 
-                echo '<li><a href="http://www.thenaf.net/leagues/leagues-locator/" >TheNAF.net League Locator</a></li>';
-                echo '<li><a href="index.php?SLS_lid=1" >League Hosting Home</a></li>';
-            } ?>
-            <li><a href="index.php?section=about">About OBBLM</a></li>
-		</ul>
-    </li>
+    <ul id="css3menu1" class="topmenu">
+        <li class="topfirst"><a href="index.php?section=main">Manager</a>
+			<ul>
+				<?php 
+				if(Settings::getValueOrDefault('show-regional-menu', false)) { 
+					foreach(League::getLeaguesByLocation() as $locationName => $leagues) {
+						echo '<li><a href="#">' . $locationName . ' ></a><ul>';
+						
+						foreach($leagues as $league) {
+							echo '<li><a href="index.php?SLS_lid=' . $league->lid . '">' . $league->name . '</a></li>';
+						}
+						
+						echo '</ul></li>';
+					}
+					if (isset($_SESSION['logged_in'])) {
+						echo '<li><a href="index.php?section=requestleague">Request a League</a></li>';
+					} 
+					echo '<li><a href="http://www.thenaf.net/leagues/leagues-locator/" >TheNAF.net League Locator</a></li>';
+					echo '<li><a href="index.php?SLS_lid=1" >League Hosting Home</a></li>';
+				} ?>
+				<li><a href="index.php?section=about">About OBBLM</a></li>
+			</ul>
+		</li>
 <?php
         if (isset($_SESSION['logged_in'])) {
 ?>
@@ -1032,11 +1052,11 @@ private static function make_menu()
                     echo '<li><a href="handler.php?type=scheduler">' . $lng->getTrn('menu/admin_menu/schedule') . '</a></li>';
 
                 foreach ($admin_menu as $lnk => $desc) {
-                    if (!is_array($desc)) {
+					if (!is_array($desc)) {
                         echo "<li><a href='index.php?section=admin&amp;subsec=$lnk'>$desc</a></li>\n";
                     }
                     else { 
-                        echo '<li><a href="#">' . $desc['title'] . '<ul>';
+						echo '<li><a href="#">' . $desc['title'] . '</a><ul>';
                         foreach ($desc['sub'] as $sub) {
                             echo "<li><a href='index.php?section=admin&amp;subsec=$lnk&amp;$sub[href]'>$sub[title]</a></li>\n";
                         }
@@ -1051,20 +1071,13 @@ private static function make_menu()
 <li class="topmenu">
     <a href="#">League Menu</a>
     <ul>
-        <li class="subfirst"><a href="index.php?section=rules"><?php echo $lng->getTrn('menu/rules');?></a></li>
+        <li class="subfirst"><a href="http://bloodbowl.bigmanstudios.co.uk/league-rules/" target="_new"><?php echo $lng->getTrn('menu/rules');?></a></li>
         <li><a href="handler.php?type=leaguetables"><?php echo $lng->getTrn('name', 'LeagueTables');?></a></li>
         <li><a href="index.php?section=teamlist"><?php echo $lng->getTrn('menu/teams');?></a></li>
         <li><a href="index.php?section=coachlist"><?php echo $lng->getTrn('menu/coaches');?></a></li>
         <li><a href="index.php?section=matches&amp;type=recent"><?php echo $lng->getTrn('menu/matches_menu/recent');?></a></li>
         <li><a href="index.php?section=matches&amp;type=upcoming"><?php echo $lng->getTrn('menu/matches_menu/upcoming');?></a>
-        <?php
-            if (!empty($settings['league_url'])) {
-                $leagueUrl = $settings['league_url'];
-                $leagueUrl = !strpos($leagueUrl, 'http') ? 'http://' . $leagueUrl : $leagueUrl;
-                
-                ?>  <li><a href="<?php echo $leagueUrl;?>"><?php echo $settings['league_url_name'];?></a></li><?php
-            }
-        ?>
+        <li class="subfirst"><a href="http://bloodbowl.bigmanstudios.co.uk/community/" target="_new"><?php echo $lng->getTrn('menu/forum');?></a></li>
     </ul>
 </li>
         
@@ -1160,7 +1173,7 @@ public static function sort_table($title, $lnk, array $objs, array $fields, arra
             page => current page being viewed
             pages => total number of pages
     */
-    global $settings, $lng, $coach;
+    global $settings, $lng;
     if (array_key_exists('remove', $extra)) {
         $objs = array_filter($objs, create_function('$obj', 'return ($obj->'.$extra['remove']['condField'].' != '.$extra['remove']['fieldVal'].');'));
     }
@@ -1183,28 +1196,38 @@ public static function sort_table($title, $lnk, array $objs, array $fields, arra
     }
     $CP = count($fields);
     ?>
-    <table class="common" <?php echo (array_key_exists('tableWidth', $extra)) ? "style='width: $extra[tableWidth];'" : '';?>>
-        <tr class="commonhead">
-            <td colspan="<?php echo $CP;?>"><b>
-            <?php echo $title;?>&nbsp;
-            <?php
-            if (!array_key_exists('noHelp', $extra) || !$extra['noHelp']) {
-                ?><a TARGET="_blank" href="html/table_desc.html">[?]</a><?php
-            }
-            ?>
-            </b></td>
-        </tr>
-        <tr>
-            <?php
-            foreach ($fields as $f => $attr)
-                echo "<td><i>$attr[desc]</i></td>";
-            ?>
-        </tr>
-        <tr>
+	<div class="boxWide">
+		<?php
+		if (!array_key_exists('noHelp', $extra) || !$extra['noHelp']) {
+			?><a class="icon_link" TARGET="_blank" href="html/table_desc.html" title="Help"><i class="fas fa-question-circle"></i></a><?php
+		}
+		$set_avg = (isset($_GET['pms']) && $_GET['pms']); // Per match stats?
+		echo '<a class="icon_link" href="'.$lnk.'&amp;pms='.(($set_avg) ? 0 : 1).'" title="'.(($set_avg) ? 'Stats as Number' : 'Stats as Match Average').'">';
+		echo '<i class="'.(($set_avg) ? 'fas fa-hashtag' : 'fas fa-percentage').'"></i>';
+		echo '</a>';
+		echo '<div class="icon_text" href="#">'.(($set_avg) ? '[ Stats shown as Match Average where possible ]' : '[ Stats shown as Total Number ]').'</div>';
+		?>
+		<h3 class="boxTitle1">
+			<?php echo $title ?>
+		</h3>
+		<div class="padder10">
+			<table class="common" <?php echo (array_key_exists('tableWidth', $extra)) ? "style='width: $extra[tableWidth];'" : '';?>>
+				<tr class="commonhead">
+					<td colspan="<?php echo $CP;?>"><b>
+					<?php echo $title;?>&nbsp;
+					</b></td>
+				</tr>
+				<tr class="commonhead">
+					<?php
+					foreach ($fields as $f => $attr)
+						echo "<td><i>$attr[desc]</i></td>";
+					?>
+				</tr>
+				<tr>
         <?php
         foreach ($fields as $f => $attr) {
             if (in_array($f, $no_print_fields) || (array_key_exists('nosort', $attr) && $attr['nosort'])) {
-                echo "<td></td>";
+                echo "<td style='background-color:#d3eaf8;'></td>";
                 continue;
             }
             $sort = 'sort'.$GETSUFX;
@@ -1213,20 +1236,27 @@ public static function sort_table($title, $lnk, array $objs, array $fields, arra
             if ($ANCHOR) {
                 $anc = "#$ANCHOR";
             }
-            echo "<td><b><a href='$lnk&amp;page=1&amp;$sort=$f&amp;$dir=a$anc' title='Sort ascending'>+</a>/<a href='$lnk&amp;page=1&amp;$sort=$f&amp;$dir=d$anc' title='Sort descending'>-</a></b></td>";
+            echo "<td class='sort_menu' style='background-color:#d3eaf8;'><b><a href='$lnk&amp;page=1&amp;$sort=$f&amp;$dir=a$anc' title='Sort ascending'><i class='fas fa-plus-square'></i></a> / <a href='$lnk&amp;page=1&amp;$sort=$f&amp;$dir=d$anc' title='Sort descending'><i class='fas fa-minus-square'></i></a></b></td>";
         }
         ?>
         </tr>
-        <tr><td colspan="<?php echo $CP;?>"><hr></td></tr>
         <?php
         $i = 1 + (($PAGE && $PAGELENGTH) ? ($PAGE-1)*$PAGELENGTH : 0);
+		$rownumber = -1;
         foreach ($objs as $o) {
             $DASH = (array_key_exists('dashed', $extra) && $o->{$extra['dashed']['condField']} == $extra['dashed']['fieldVal']) ? true : false;
             if (array_key_exists('color', $extra)) {
                 $td = "<td style='background-color: ".(isset($o->HTMLbcolor) ? $o->HTMLbcolor : 'white')."; color: ".(isset($o->HTMLfcolor) ? $o->HTMLfcolor : 'black').";'>";
             }
             else {
-                $td = '<td>';
+				$row_color = "";
+				if($rownumber % 2 == 0){ 
+					$row_color = "#e9f5fb";  
+				} 
+				else{ 
+					$row_color = "white"; 
+				} 
+                $td = '<td class="table_val" style="background-color:'.$row_color.';">';
             }
             echo "<tr>";
             if ($DONR) {
@@ -1250,31 +1280,7 @@ public static function sort_table($title, $lnk, array $objs, array $fields, arra
                         $cpy = "<font color='$a[color]'>".$cpy."</font>";
                     if (array_key_exists('href', $a) && $a['href']) {
                         $href = (isset($o->href)) ? $o->href : $a['href'];
-                        $cpy  = "<a " 
-                            . "href='$href[link]" . ((isset($href['field'])) ? "&amp;$href[field]=".$o->{$href['value']} : '') . "'"
-                            . "class='" . ((array_key_exists('icon', $a) && $a['icon']) ? "icon-link" : "") . "'"
-                            . ">"
-                            . $cpy
-                            . "</a>";
-                    }
-                    if (array_key_exists('editable', $a) && $a['editable']) {
-                        if($a['allowEdit']) {
-                            $args = "";
-                            if(array_key_exists('javaScriptArgs', $a) && $a['javaScriptArgs']) {
-                                $args = '';
-                                $prefix = '';
-                                foreach($a['javaScriptArgs'] as $propertyKey) {
-                                    $args .= ($prefix . $o->$propertyKey);
-                                    $prefix = ',';
-                                }
-                            }
-                            if(!isset($a['editableClass']))
-                                $a['editableClass'] = '';
-                            
-                            $cpy = '<div data-bind="editable: {update: ' . $a['editable'] . ', args: [' . $args . '], cssClass: \'' . $a['editableClass'] . '\'}">'
-                                . $cpy
-                                . '</div>';
-                        }
+                        $cpy  = "<a href='$href[link]".((isset($href['field'])) ? "&amp;$href[field]=".$o->{$href['value']} : '')."'>".$cpy."</a>";
                     }
                     if (isset($o->{"${f}_color"})) {
                         echo "<td style='background-color: ".$o->{"${f}_color"}."; color: black;'>".$cpy."</td>";
@@ -1288,15 +1294,15 @@ public static function sort_table($title, $lnk, array $objs, array $fields, arra
             if ($i++ == $LIMIT) {
                 break;
             }
+			$rownumber ++;
         }
         if (!$NOSRDISP) {
         ?>
-        <tr>
-            <td colspan="<?php echo $CP;?>">
-            <hr>
-            </td>
-        </tr>
-        <tr>
+				<tr>
+					<td colspan="<?php echo $CP;?>">
+					</td>
+				</tr>
+				<tr>
             <td align="right" colspan="<?php echo $CP;?>">
             <?php
             if ($PAGES) {
@@ -1313,12 +1319,16 @@ public static function sort_table($title, $lnk, array $objs, array $fields, arra
             <?php
             }
             ?>
-            <div style='float:right;'><i><?php echo $lng->getTrn('common/sortedagainst');?>: <?php echo implode(', ', rule_dict($MASTER_SORT));?></i></div>
-            </td>
-        </tr>
+					<div style='float:right;'><i><?php echo $lng->getTrn('common/sortedagainst');?>: <?php echo implode(', ', rule_dict($MASTER_SORT));?></i></div>
+					</td>
+				</tr>
         <?php
         }
-    echo "</table>\n";
+	?>
+			</table>
+		</div>
+	</div>
+	<?php
 }
 public static function generateEStable($obj)
 {

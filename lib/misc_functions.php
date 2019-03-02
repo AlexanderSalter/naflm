@@ -215,7 +215,8 @@ function racesTrans($str) {
 
 // Prints page title for main section pages.
 function title($title) {
-    echo "<h2>$title</h2>\n";
+	echo "<div style='clear: both;'></div>";
+    echo "<div class='section_head'>$title</div>\n";
 }
 
 // Privileges error. Stop PHP interpreter and warn the user!
@@ -245,7 +246,7 @@ function textdate($mysqldate, $noTime = false, $setSeconds = true) {
     $lng->getTrn('daysofweek/monday'),
     $lng->getTrn('daysofweek/tuesday'),
     $lng->getTrn('daysofweek/wednesday'),
-    $lng->getTrn('daysofweek/thursday'),
+    $lng->getTrn('daysofweek/thusday'),
     $lng->getTrn('daysofweek/friday'),
     $lng->getTrn('daysofweek/saturday'),
     );

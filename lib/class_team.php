@@ -338,10 +338,10 @@ class Team
     public function setReady($bool) {
 
         mysql_query("UPDATE teams SET rdy = ".(($bool) ? 1 : 0)." WHERE team_id = $this->team_id");
-        $this->rdy = $bool;
+        $t->rdy = $bool;
         return true;
     }
-    
+
     public function isDeletable() {
 
         /**

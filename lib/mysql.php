@@ -766,31 +766,10 @@ function setup_database() {
     return true;
 }
 
-function upgrade_database_to_version($toVersion, $fromVersion) {
-    global $db_upgrade_options;
-    
-    require_once('lib/class_sqlcore.php');
-    require_once('lib/mysql_upgrade_queries.php');
-    
-    $reversedUpgradeSqls = array_reverse($upgradeSQLs, true);
-    $upgrading = false;
-    
-    foreach($reversedUpgradeSqls as $versionNumber => $sqlList) {
-        if($versionNumber == $fromVersion || $versionNumber > $fromVersion)
-            $upgrading = true;
-        
-        if($upgrading) {
-            echo '<div>Upgrading to version ' . $versionNumber . '.</div>';
-            upgrade_database($versionNumber, $db_upgrade_options, $upgradeSQLs);
-        }
-
-        if($versionNumber == $toVersion)
-            $upgrading = false;
-    }
-}
-
-function upgrade_database($version, $opts, $upgradeSQLs)
+function upgrade_database($version, $opts)
 {
+    $conn = mysql_up();
+
     switch ($version) {
         case '075-080':
             # Migrating position IDs correctly requires having loaded the correct LRB used in the v0.75 league.
@@ -805,6 +784,9 @@ function upgrade_database($version, $opts, $upgradeSQLs)
         default:
             break;
     }
+
+    require_once('lib/class_sqlcore.php');
+    require_once('lib/mysql_upgrade_queries.php');
 
     // Modules
     echo "<b>Running SQLs for modules upgrade...</b><br>\n";
@@ -821,7 +803,7 @@ function upgrade_database($version, $opts, $upgradeSQLs)
     // Core
     echo "<b>Running tasks for core system upgrade...</b><br>\n";
 
-    if (isset($upgradeSettings[$version]) && $upgradeSettings[$version]['sync_gamedata']) {
+    if ($upgradeSettings[$version]['sync_gamedata']) {
         echo (SQLCore::syncGameData())
             ? "<font color='green'>OK &mdash; Synchronized game data with database</font><br>\n"
             : "<font color='red'>FAILED &mdash; Error whilst synchronizing game data with database</font><br>\n";
@@ -846,7 +828,7 @@ function upgrade_database($version, $opts, $upgradeSQLs)
 		echo ($status) ? "<font color='green'>OK &mdash; Custom PHP upgrade code (<i>".implode(', ',$core_Funcs)."</i>)</font><br>\n" : "<font color='red'>FAILED &mdash; Custom PHP upgrade code</font><br>\n";
     }
 
-    if (isset($upgradeSettings[$version]) && $upgradeSettings[$version]['syncall']) {
+    if ($upgradeSettings[$version]['syncall']) {
         echo (SQLCore::installMVs())
             ? "<font color='green'>OK &mdash; created MV tables</font><br>\n"
             : "<font color='red'>FAILED &mdash; could not create MV tables</font><br>\n";
@@ -857,7 +839,7 @@ function upgrade_database($version, $opts, $upgradeSQLs)
             : "<font color='red'>FAILED &mdash; create/update ES tables</font><br>\n";
     }
 
-    if (isset($upgradeSettings[$version]) && $upgradeSettings[$version]['reload_indexes']) {
+    if ($upgradeSettings[$version]['reload_indexes']) {
         echo (SQLCore::installTableIndexes())
             ? "<font color='green'>OK &mdash; applied table indexes</font><br>\n"
             : "<font color='red'>FAILED &mdash; could not apply one more more table indexes</font><br>\n";
@@ -874,14 +856,15 @@ function upgrade_database($version, $opts, $upgradeSQLs)
             break;
     }
 
-    if (isset($upgradeSettings[$version]) && $upgradeSettings[$version]['syncall']) {
+    if ($upgradeSettings[$version]['syncall']) {
         echo (mysql_query("CALL syncAll()"))
             ? "<font color='green'>OK &mdash; synchronised all dynamic stats and properties</font><br>\n"
             : "<font color='red'>FAILED &mdash; could not synchronise all dynamic stats and properties</font><br>\n";
     }
     
     // Done!
-    return isset($upgradeMsgs[$version]) ? $upgradeMsgs[$version] : '' ;
+    mysql_close($conn);
+    return $upgradeMsgs[$version];
 }
 
 /*
@@ -920,24 +903,6 @@ class SQLUpgrade
         }
         $row = mysql_fetch_row($result);
         return ((int) $row[0]) ? $query : self::NONE;
-    }
-    
-    public static function getCurrentDatabaseVersion() {
-        if(!self::doesColExist('version', 'version'))
-            return false;
-        
-        $result = mysql_query("SELECT version from version");
-        if (!$result || mysql_num_rows($result) == 0)
-            return false;
-
-        $row = mysql_fetch_row($result);
-        return (int) $row[0];
-    }
-    
-    public static function updateDatabaseVersion($version) {
-        // Drop table and create
-        Table::createTable('version', array('version' => 'MEDIUMINT UNSIGNED NOT NULL'));
-        return "INSERT INTO version (version) VALUES ($version)";
     }
 }
 

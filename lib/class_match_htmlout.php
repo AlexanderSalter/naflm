@@ -1029,7 +1029,7 @@ public static function userSched() {
     title($lng->getTrn('menu/matches_menu/usersched'));
     $LOCK_FORMS = false;
     ?>
-    <div class='boxCommon'>
+    <div class='boxWide boxTextCenter'>
         <h3 class='boxTitle<?php echo T_HTMLBOX_MATCH;?>'><?php echo $lng->getTrn('menu/matches_menu/usersched');?></h3>
         <div class='boxBody'>
             <form method="POST" id="usersched">

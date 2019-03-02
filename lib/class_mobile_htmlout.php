@@ -4,17 +4,17 @@ class Mobile_HTMLOUT {
         global $coach;
         
         if(isset($_SESSION["SelectedTeam"])) {
-            return (isset($_REQUEST["SelectedTeam"]) && $_REQUEST["SelectedTeam"] != $_SESSION["SelectedTeam"]) ? $_REQUEST["SelectedTeam"] : $_SESSION["SelectedTeam"];
+            return (isset($_POST["SelectedTeam"]) && $_POST["SelectedTeam"] != $_SESSION["SelectedTeam"]) ? $_POST["SelectedTeam"] : $_SESSION["SelectedTeam"];
         } else {
-            $teams = $coach->getReadyTeams();
-            return isset($_REQUEST["SelectedTeam"]) ? $_REQUEST["SelectedTeam"] : $teams[0]->team_id;
+            $teams = $coach->getTeams();
+            return isset($_POST["SelectedTeam"]) ? $_POST["SelectedTeam"] : $teams[0]->team_id;
         }
     }
     
     public static function sec_mobile_main() {
         global $coach, $lng, $T_INJS;
         
-        $teams = $coach->getReadyTeams();
+        $teams = $coach->getTeams();
         $selectedTeamId = Mobile_HTMLOUT::getSelectedTeamId();
         $_SESSION["SelectedTeam"] = $selectedTeamId;
 
@@ -23,11 +23,9 @@ class Mobile_HTMLOUT {
                 $selectedTeam = $team;
         }
         
-        if(empty($teams)) {
+        if(!$selectedTeam) {
             echo $lng->getTrn('mobile/team/noteams');
             return;
-        } else if(!isset($selectedTeam)) {
-            $selectedTeam = $teams[0];
         }
         
         $playersOnSelectedTeam = $selectedTeam->getPlayers();

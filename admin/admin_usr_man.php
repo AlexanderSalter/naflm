@@ -25,7 +25,6 @@ if (isset($_POST['type'])) {
     }
 
     switch ($_POST['type']) {
-
         case 'QUIT':
             $c = null;
             break;
@@ -293,7 +292,6 @@ $T_LOCAL_RINGS = array(
                                 ?>
                                     <tr>
                                         <td><?php echo $retiredCoach->name; ?></td>
-                                        <td><?php echo join(', ', $retiredCoach->getLeagues()); ?></td>
                                         <td>
                                             <form method="POST" action="handler.php?type=registration&form=activate">
                                                 <input type="hidden" name="activate_name" value="<?php echo $retiredCoach->name; ?>" />
@@ -305,8 +303,6 @@ $T_LOCAL_RINGS = array(
                                 }
                             } ?>
                     </table>
-                    <br />
-                    <em>Admin:</em> Avoid activating users from other leagues.
                 <?php } ?>
         </div>
     </div>
@@ -327,7 +323,7 @@ $T_LOCAL_RINGS = array(
             echo "Access levels of '$c->name' are<br><br>\n";
             echo "<b>Global</b><br>".$T_GLOBAL_RINGS[$c->ring]."<br><br>";
             echo "<b>Local</b><br>";
-            list($_leagues) = Coach::allowedNodeAccess(Coach::NODE_STRUCT__FLAT, $c->coach_id);
+			list($_leagues) = Coach::allowedNodeAccess(Coach::NODE_STRUCT__FLAT, $c->coach_id);
             if (empty($_leagues)) {
                 echo "<i>None</i>";
             }
