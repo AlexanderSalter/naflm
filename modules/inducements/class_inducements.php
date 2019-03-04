@@ -63,7 +63,7 @@ if (!get_alt_col('teams', 'team_id', $team_id, 'team_id'))
 global $stars, $DEA, $rules, $skillarray, $inducements, $racesNoApothecary;
 
 // Move these constants to header.php?
-define('MAX_STARS', 2);
+define('MAX_STARS', 6);
 define('MERC_EXTRA_COST', 30000);
 define('MERC_EXTRA_SKILL_COST', 50000);
 
@@ -123,6 +123,7 @@ function SendToPDF()
     </tr>
 <?php
 $brick_n_grotty = false;
+$lucien_and_valen = false;
 $i=1;
 while ($i <= MAX_STARS) {
   print "  <tr>\n";
@@ -144,6 +145,18 @@ while ($i <= MAX_STARS) {
         $star_list[0] = str_replace('      <option style="background-color: '.COLOR_HTML_READY.';" value="-6">Brick Far\'th (+ Grotty)</option>'."\n", '', $star_list[0]);
         $star_list[0] = str_replace('      <option value="-7">Grotty (included in Brick Far\'th)</option>'."\n",'',$star_list[0]); // Removing Grotty from second row
         $star_list[0] = str_replace('      <option style="background-color: '.COLOR_HTML_READY.';" value="-7">Grotty (included in Brick Far\'th)</option>'."\n", '', $star_list[0]);
+      }
+	  elseif ($sid == "-105" || $sid == "-106") { // Select Lucien as selected and add row for Valen
+		$lucien_and_valen = true;
+        $star_list[$i] = str_replace('option value="-105"','option selected value="-105"',$star_list[$i]);  // Hardcoded Brick
+        $star_list[$i] = str_replace('option style="background-color: '.COLOR_HTML_READY.';" value="-105"', 'option selected style="background-color: '.COLOR_HTML_READY.';" value="-105"', $star_list[$i]);
+        $sid = -105;
+        $s = new Star($sid); // Making sure to switch from Grotty to Brick
+#        $s->setStats(false, false, false, false);
+        $star_list[0] = str_replace('      <option value="-105">Lucien (+ Valen)</option>'."\n",'',$star_list[0]); // Removing Brick from second row
+        $star_list[0] = str_replace('      <option style="background-color: '.COLOR_HTML_READY.';" value="-105">Lucien (+ Valen)</option>'."\n", '', $star_list[0]);
+        $star_list[0] = str_replace('      <option value="-106">Valen (included in Lucien)</option>'."\n",'',$star_list[0]); // Removing Grotty from second row
+        $star_list[0] = str_replace('      <option style="background-color: '.COLOR_HTML_READY.';" value="-106">Valen (included in Lucien)</option>'."\n", '', $star_list[0]);
       }
       else {
         $star_list[$i] = str_replace('option value="'.$sid.'"','option selected value="'.$sid.'"',$star_list[$i]);
@@ -170,17 +183,32 @@ while ($i <= MAX_STARS) {
   $i++;
   break;
 }
-if ($brick_n_grotty) { // Print Grotty and add hidden input field
-  $sid = -7;  // ID for Grotty hardcoded :-P
-  $s = new Star($sid);
-#  $s->setStats(false, false, false, false);
-  echo '<tr>';
-  $grotty_nr = MAX_STARS + 1;
-  echo '<td>'.$s->name.'<input type="hidden" name="Star' . $grotty_nr . '" value="-7"></td>';
-  print "<td class=\"cent\">".str_replace('000','',$s->cost)."k</td>\n<td class=\"cent\">".
-        $s->ma."</td>\n<td class=\"cent\">".$s->st."</td>\n<td class=\"cent\">".$s->ag."</td>\n<td class=\"cent\">".$s->av."</td>\n<td>\n<small>".implode(', ',skillsTrans($s->skills))."</small></td>\n";
-//  print "<td>".$s->cp."</td>\n<td>".$s->td."</td>\n<td>".$s->intcpt."</td>\n<td>".$s->cas."</td>\n<td>".$s->bh."</td>\n<td>".$s->si."</td>\n<td>".$s->ki."</td>\n<td>".$s->mvp."</td>\n<td>".$s->spp."</td>\n<td>";
-  print "</tr>\n";
+$adjusted_star_nr = MAX_STARS;
+if($brick_n_grotty || $lucien_and_valen){
+	if ($brick_n_grotty) { // Print Grotty and add hidden input field
+	  $sid = -7;  // ID for Grotty hardcoded :-P
+	  $s = new Star($sid);
+	  $adjusted_star_nr ++;
+	#  $s->setStats(false, false, false, false);
+	  echo '<tr>';
+	  echo '<td>'.$s->name.'<input type="hidden" name="Star' . $adjusted_star_nr . '" value="-7"></td>';
+	  print "<td class=\"cent\">".str_replace('000','',$s->cost)."k</td>\n<td class=\"cent\">".
+			$s->ma."</td>\n<td class=\"cent\">".$s->st."</td>\n<td class=\"cent\">".$s->ag."</td>\n<td class=\"cent\">".$s->av."</td>\n<td>\n<small>".skillsTrans($s->skills)."</small></td>\n";
+	  //print "<td>".$s->cp."</td>\n<td>".$s->td."</td>\n<td>".$s->intcpt."</td>\n<td>".$s->cas."</td>\n<td>".$s->bh."</td>\n<td>".$s->si."</td>\n<td>".$s->ki."</td>\n<td>".$s->mvp."</td>\n<td>".$s->spp."</td>\n<td>";
+	  print "</tr>\n";
+	}
+	if ($lucien_and_valen) { // Print Valen and add hidden input field
+	  $sid = -106;  // ID for Grotty hardcoded :-P
+	  $s = new Star($sid);
+	  $adjusted_star_nr ++;
+	#  $s->setStats(false, false, false, false);
+	  echo '<tr>';
+	  echo '<td>'.$s->name.'<input type="hidden" name="Star' . $adjusted_star_nr . '" value="-106"></td>';
+	  print "<td class=\"cent\">".str_replace('000','',$s->cost)."k</td>\n<td class=\"cent\">".
+			$s->ma."</td>\n<td class=\"cent\">".$s->st."</td>\n<td class=\"cent\">".$s->ag."</td>\n<td class=\"cent\">".$s->av."</td>\n<td>\n<small>".skillsTrans($s->skills)."</small></td>\n";
+	  //print "<td>".$s->cp."</td>\n<td>".$s->td."</td>\n<td>".$s->intcpt."</td>\n<td>".$s->cas."</td>\n<td>".$s->bh."</td>\n<td>".$s->si."</td>\n<td>".$s->ki."</td>\n<td>".$s->mvp."</td>\n<td>".$s->spp."</td>\n<td>";
+	  print "</tr>\n";
+	}
 }
 ?>
 </table>

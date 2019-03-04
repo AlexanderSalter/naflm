@@ -68,7 +68,7 @@ define("HEADLINEBGCOLOR", '#c3c3c3');
 
 // Custom settings for inducements.
 
-define('MAX_STARS', 2);
+define('MAX_STARS', 6);
 define('MERC_EXTRA_COST', 30000);
 define('MERC_EXTRA_SKILL_COST', 50000);
 
@@ -369,7 +369,10 @@ if ($_POST) {
     elseif ($key == 'Halfling Master Chef') { $ind_chef = (int) $val; continue; }
     elseif ($key == 'Igor') { $ind_igor = (int) $val; continue; }
     elseif ($key == 'Wandering Apothecaries') { $ind_apo = (int) $val; continue; }
-    elseif ($key == 'Wizard') { $ind_wiz = (int) $val; continue; }
+    //elseif ($key == 'Wizard/Sorcerer') { $ind_wiz = (int) $val; continue; }
+    elseif ($key == 'Specialist Assistant Coaches') { $ind_sac = (int) $val; continue; }
+    elseif ($key == 'Temp Agency Cheerleaders') { $ind_tac = (int) $val; continue; }
+    elseif ($key == 'Weather Mage') { $ind_weam = (int) $val; continue; }
   }
 
   // Printing stars first
@@ -465,8 +468,14 @@ if (isset($ind_rr)) { $ind_cost += $ind_rr*$inducements['Extra Training']['cost'
 else $ind_rr = '__';
 if (isset($ind_chef)) { $ind_cost += $ind_chef*$chef_cost;} #Not $inducements['Halfling Master Chef']['cost']; }
 else $ind_chef = '__';
-if (isset($ind_wiz)) { $ind_cost += $ind_wiz*$inducements['Wizard']['cost']; }
-else $ind_wiz = '__';
+//if (isset($ind_wiz)) { $ind_cost += $ind_wiz*$inducements['Wizard/Sorcerer']['cost']; }
+//else $ind_wiz = '__';
+if (isset($ind_sac)) { $ind_cost += $ind_sac*$inducements['Specialist Assistant Coaches']['cost']; }
+else $ind_sac = '__';
+if (isset($ind_tac)) { $ind_cost += $ind_tac*$inducements['Temp Agency Cheerleaders']['cost']; }
+else $ind_tac = '__';
+if (isset($ind_weam)) { $ind_cost += $ind_weam*$inducements['Weather Mage']['cost']; }
+else $ind_weam = '__';
 
 // print_inducements($x, $y, $h, $bgcol, $linecol, $fontsize, $ind_name, $ind_amount, $ind_value)
 $pdf->print_inducements(MARGINX, ($currenty+=$h), $h, COLOR_ROSTER_NORMAL, DEFLINECOLOR, 8, 'Bloodweiser Babes (0-2):', $ind_babes, $pdf->Mf($inducements['Bloodweiser Babes']['cost']));
@@ -474,10 +483,11 @@ $pdf->print_inducements(MARGINX, ($currenty+=$h), $h, COLOR_ROSTER_NORMAL, DEFLI
 $pdf->print_inducements(MARGINX, ($currenty+=$h), $h, COLOR_ROSTER_NORMAL, DEFLINECOLOR, 8, 'Extra Training (0-4):', $ind_rr, $pdf->Mf($inducements['Extra Training']['cost']));
 $pdf->print_inducements(MARGINX, ($currenty+=$h), $h, COLOR_ROSTER_NORMAL, DEFLINECOLOR, 8, 'Halfling Master Chef (0-1):', $ind_chef, $pdf->Mf($chef_cost));
 $pdf->print_inducements(MARGINX, ($currenty+=$h), $h, COLOR_ROSTER_NORMAL, DEFLINECOLOR, 8, $apo_igor, $ind_apo_igor, $pdf->Mf($ind_apo_igor_cost));
-$pdf->print_inducements(MARGINX, ($currenty+=$h), $h, COLOR_ROSTER_NORMAL, DEFLINECOLOR, 8, 'Wizard (0-1):', $ind_wiz, $pdf->Mf($inducements['Wizard']['cost']));
+//$pdf->print_inducements(MARGINX, ($currenty+=$h), $h, COLOR_ROSTER_NORMAL, DEFLINECOLOR, 8, 'Wizard/Sorcerer (0-1):', $ind_wiz, $pdf->Mf($inducements['Wizard/Sorcerer']['cost']));
+$pdf->print_inducements(MARGINX, ($currenty+=$h), $h, COLOR_ROSTER_NORMAL, DEFLINECOLOR, 8, 'Specialist Assistant Coaches:', $ind_sac, $pdf->Mf($inducements['Specialist Assistant Coaches']['cost']));
+$pdf->print_inducements(MARGINX, ($currenty+=$h), $h, COLOR_ROSTER_NORMAL, DEFLINECOLOR, 8, 'Temp Agency Cheerleaders:', $ind_tac, $pdf->Mf($inducements['Temp Agency Cheerleaders']['cost']));
+$pdf->print_inducements(MARGINX, ($currenty+=$h), $h, COLOR_ROSTER_NORMAL, DEFLINECOLOR, 8, 'Weather Mage:', $ind_weam, $pdf->Mf($inducements['Weather Mage']['cost']));
 $pdf->print_inducements(MARGINX, ($currenty+=$h), $h, COLOR_ROSTER_NORMAL, DEFLINECOLOR, 8, 'Card budget:', ' ', $pdf->Mf($ind_card));
-$pdf->print_inducements(MARGINX, ($currenty+=$h), $h, COLOR_ROSTER_NORMAL, DEFLINECOLOR, 8, 'Gate:', null, '');
-$pdf->print_inducements(MARGINX, ($currenty+=$h), $h, COLOR_ROSTER_NORMAL, DEFLINECOLOR, 8, 'FAME:', null, '');
 
 $currenty=435;
 $currentx=630;
@@ -517,7 +527,7 @@ if ($settings['enable_pdf_logos']) {
     $pdf->Image($img->getPath(),346,436,128,128,'','',false,0);
 
     // OBBLM text lower left corner as a pic
-    $pdf->Image('modules/pdf/OBBLM_pdf_logo.png', MARGINX+12, 534, 60, 28, '', '', false, 0);
+    //$pdf->Image('modules/pdf/OBBLM_pdf_logo.png', MARGINX+12, 534, 60, 28, '', '', false, 0);
 }
 
 // Color legends

@@ -62,7 +62,7 @@ class PDFMatchReport implements ModuleInterface
 
 	// Custom settings for inducements.
 
-	define('MAX_STARS', 2);
+	define('MAX_STARS', 6);
 	define('MERC_EXTRA_COST', 30000);
 	define('MERC_EXTRA_SKILL_COST', 50000);
 

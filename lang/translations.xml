@@ -510,12 +510,12 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
 <race>
   <amazon>Amazon</amazon>
   <bretonnia>Bretonnia</bretonnia>
-  <chaos>Chaos</chaos>
+  <chaoschosen>Chaos Chosen</chaoschosen>
   <chaosdwarf>Chaos Dwarf</chaosdwarf>
   <daemonsofkhorne>Daemons of Khorne</daemonsofkhorne>
   <darkelf>Dark Elf</darkelf>
   <dwarf>Dwarf</dwarf>
-  <elf>Elf</elf>
+  <elvenunion>Elven Union</elvenunion>
   <goblin>Goblin</goblin>
   <halfling>Halfling</halfling>
   <highelf>High Elf</highelf>
@@ -543,8 +543,8 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
   <catcher>Catcher</catcher>
   <blitzer>Blitzer</blitzer>
 
-  <beastman>Beastman</beastman>
-  <chaoswarrior>Chaos Warrior</chaoswarrior>
+  <beastmanrunners>Beastman Runners</beastmanrunners>
+  <chosenblockers>Chaos Warrior</chosenblockers>
   <minotaur>Minotaur</minotaur>
 
   <humanrenegade>Human Renegade</humanrenegade>
@@ -572,11 +572,13 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
   <deathroller>Deathroller</deathroller>
 
   <goblin>Goblin</goblin>
-  <bombardier>Bombardier</bombardier>
+  <bomma>Bomma</bomma>
   <pogoer>Pogoer</pogoer>
   <looney>Looney</looney>
   <fanatic>Fanatic</fanatic>
   <troll>Troll</troll>
+  <doomdiver>Doom Diver</doomdiver>
+  <ooligan>Ooligan</ooligan>
 
   <halfling>Halfling</halfling>
   <treeman>Treeman</treeman>
@@ -609,8 +611,8 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
 
   <rotter>Rotter</rotter>
   <pestigor>Pestigor</pestigor>
-  <nurglewarrior>Nurgle Warrior</nurglewarrior>
-  <beastofnurgle>Beast of Nurgle</beastofnurgle>
+  <bloater>Bloater</bloater>
+  <rotspawn>Rotspawn</rotspawn>
 
   <underworldgoblin>Underworld Goblin</underworldgoblin>
   <skavenlineman>Skaven Lineman</skavenlineman>
@@ -716,6 +718,8 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
   <throwteammate>Throw Team-Mate</throwteammate>
   <titchy>Titchy</titchy>
   <wildanimal>Wild Animal</wildanimal>
+  <monstrousmouth>Monstrous Mouth</monstrousmouth>
+  <swoop>Swoop</swoop>
 </skill>
 
 <starplayer>
@@ -1289,12 +1293,12 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
 <race>
   <amazon>Amazonas</amazon>
   <bretonnia>Bretonianos</bretonnia>
-  <chaos>Caos</chaos>
+  <chaoschosen>Caos Elegido</chaoschosen>
   <chaosdwarf>Enanos del Caos</chaosdwarf>
   <daemonsofkhorne>Demonios de Khorne</daemonsofkhorne>
   <darkelf>Elfos Oscuros</darkelf>
   <dwarf>Enanos</dwarf>
-  <elf>Elfos</elf>
+  <elvenunion>Union Elfica</elvenunion>
   <goblin>Goblins</goblin>
   <halfling>Halflings</halfling>
   <highelf>Altos Elfos</highelf>
@@ -1322,8 +1326,8 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
   <catcher>Receptor</catcher>
   <blitzer>Blitzer</blitzer>
 
-  <beastman>Hombre Bestia</beastman>
-  <chaoswarrior>Guerrero del Caos</chaoswarrior>
+  <beastmanrunners>Corredores Bestia</beastmanrunners>
+  <chosenblockers>Bloqueadores Elegidos</chosenblockers>
   <minotaur>Minotauro</minotaur>
 
   <humanrenegade>Renegado Humano</humanrenegade>
@@ -1351,11 +1355,13 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
   <deathroller>Apisonadora</deathroller>
 
   <goblin>Goblin</goblin>
-  <bombardier>Bombardero</bombardier>
+  <bomma>Bomma</bomma>
   <pogoer>Pogo</pogoer>
   <looney>Chiflado</looney>
   <fanatic>Fanático</fanatic>
   <troll>Troll</troll>
+  <doomdiver>Doom Diver</doomdiver>
+  <ooligan>Ooligan</ooligan>
 
   <halfling>Halfling</halfling>
   <treeman>Hombre Árbol</treeman>
@@ -1388,8 +1394,8 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
 
   <rotter>Putrefactos</rotter>
   <pestigor>Pestigor</pestigor>
-  <nurglewarrior>Guerreros de Nurgle</nurglewarrior>
-  <beastofnurgle>Bestia de Nurgle</beastofnurgle>
+  <bloater>Bloater</bloater>
+  <rotspawn>Rotspawn</rotspawn>
 
   <underworldgoblin>Goblin del Inframundo</underworldgoblin>
   <skavenlineman>Línea Skaven</skavenlineman>
@@ -1495,6 +1501,8 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
   <throwteammate>Lanzar Compañero de Equipo</throwteammate>
   <titchy>Canijo</titchy>
   <wildanimal>Animal Salvaje</wildanimal>
+  <monstrousmouth>Boca Monstruosa</monstrousmouth>
+  <swoop>Swoop</swoop>
 </skill>
 
 <starplayer>
@@ -2496,11 +2504,11 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
 </admin>
 <race>
         <amazon>Amazone</amazon>
-        <chaos>Chaos</chaos>
+        <chaoschosen>Chaos Choisi</chaoschosen>
         <chaosdwarf>Nain du Chaos</chaosdwarf>
         <darkelf>Elfe noir</darkelf>
         <dwarf>Nain</dwarf>
-        <elf>Elfe Pro</elf>
+        <elvenunion>Union Elfique</elvenunion>
         <goblin>Gobelin</goblin>
         <halfling>Halfling</halfling>
         <highelf>Haut-Elfe</highelf>
@@ -2525,8 +2533,8 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
         <thrower>Passeur</thrower>
         <catcher>Reçeveur</catcher>
         <blitzer>Blitzeur</blitzer>
-        <beastman>Homme-bête</beastman>
-        <chaoswarrior>Guerrier du Chaos</chaoswarrior>
+        <beastmanrunners>Coureurs Homme-bête</beastmanrunners>
+        <chosenblockers>Bloqueurs Choisis</chosenblockers>
         <minotaur>Minotaure</minotaur>
         <humanrenegade>Renégat Humain</humanrenegade>
         <goblinrenegade>Renégat Gobelin</goblinrenegade>
@@ -2549,11 +2557,13 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
         <trollslayer>Tueur de Troll</trollslayer>
         <deathroller>Roule-mort</deathroller>
         <goblin>Gobelin</goblin>
-        <bombardier>Bombardier</bombardier>
+        <bomma>Bomma</bomma>
         <pogoer>Bâton à ressort</pogoer>
         <looney>Fanatique</looney>
         <fanatic>Fanatique</fanatic>
         <troll>Troll</troll>
+		<doomdiver>Doom Diver</doomdiver>
+		<ooligan>Ooligan</ooligan>
         <halfling>Halfling</halfling>
         <treeman>Homme-arbre</treeman>
         <ogre>Ogre</ogre>
@@ -2576,8 +2586,8 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
         <snowtroll>Troll des neiges</snowtroll>
         <rotter>Pourri</rotter>
         <pestigor>Pestigor</pestigor>
-        <nurglewarrior>Guerrier de Nurgle</nurglewarrior>
-        <beastofnurgle>Bête de Nurgle</beastofnurgle>
+        <bloater>Bloater</bloater>
+        <rotspawn>Rotspawn</rotspawn>
         <underworldgoblin>Gobelin</underworldgoblin>
         <skavenlineman>Trois-quart Skaven</skavenlineman>
         <skaventhrower>Passeur Skaven</skaventhrower>
@@ -2667,6 +2677,8 @@ For example, english is in <en-GB>, french in <fr-FR>, .......
     <throwteammate>Lancer un Coéquipier</throwteammate>
     <titchy>Microbe</titchy>
     <wildanimal>Animal Sauvage</wildanimal>
+	<monstrousmouth>Bouche Monstrueuse</monstrousmouth>
+	<swoop>Swoop</swoop>
 </skill>
 
 <starplayer>
