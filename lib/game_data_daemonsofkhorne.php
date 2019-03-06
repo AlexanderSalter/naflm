@@ -87,6 +87,6 @@ $DEA['Daemons of Khorne'] = array (
 
 array_push($stars['Grashnak Blackhoof']['races'], T_RACE_DKHORNE);
 array_push($stars['Morg \'n\' Thorg']['races'],   T_RACE_DKHORNE);
-array_push($stars['Horatio X. Schottenheim (Coaching Staff)']['races'],   T_RACE_DKHORNE);
-array_push($stars['Hireling Sports-Wizard (Wizard)']['races'],   T_RACE_DKHORNE);
+array_push($coachingstaff['Horatio X. Schottenheim (Coaching Staff)']['races'],   T_RACE_DKHORNE);
+array_push($coachingstaff['Hireling Sports-Wizard (Wizard)']['races'],   T_RACE_DKHORNE);
 

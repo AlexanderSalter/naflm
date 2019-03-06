@@ -33,6 +33,7 @@ $CT_cols = array(
     T_OBJ_COACH  => 'MEDIUMINT UNSIGNED',
     T_OBJ_RACE   => 'TINYINT UNSIGNED',
     T_OBJ_STAR   => 'SMALLINT SIGNED', # All star IDs are negative.
+    T_OBJ_COACHINGSTAFF   => 'SMALLINT SIGNED', # All star IDs are negative.
     'pos_id'     => 'SMALLINT UNSIGNED', # Position ID/"name ID" of player on race roster.
     'skill_id'   => 'SMALLINT UNSIGNED',
     T_NODE_MATCH      => 'MEDIUMINT SIGNED',
@@ -295,6 +296,17 @@ $core_tables = array(
         'name' => $CT_cols['name'],
         'cat' => 'VARCHAR(1)',
     ),
+    'game_data_coachingstaff' => array(
+        'coachingstaff_id'=> $CT_cols[T_OBJ_COACHINGSTAFF].' NOT NULL PRIMARY KEY',
+        'name'   => $CT_cols['name'],
+        'cost'   => 'MEDIUMINT UNSIGNED',
+        'races'  => 'VARCHAR('.(29+30*2).')', # Race IDs that may hire inducement. Total of (less than) 30 races of each two digit race ID + 29 commas = 29+30*2
+        'ma'     => $CT_cols['chr'],
+        'st'     => $CT_cols['chr'],
+        'ag'     => $CT_cols['chr'],
+        'av'     => $CT_cols['chr'],
+        'skills' => $CT_cols['skills'],
+    ),
 );
 
 /*
@@ -304,6 +316,7 @@ $core_tables = array(
 $mv_keys = array(
     T_OBJ_PLAYER => 'f_pid',
     T_OBJ_STAR   => 'f_pid',
+    T_OBJ_COACHINGSTAFF   => 'f_pid',
     T_OBJ_TEAM   => 'f_tid',
     T_OBJ_COACH  => 'f_cid',
     T_OBJ_RACE   => 'f_rid',
@@ -536,6 +549,7 @@ $relations_node = array(
 $relations_obj = array(
     T_OBJ_PLAYER => array('id' => 'player_id', 'parent_id' => 'owned_by_team_id',   'tbl' => 'players'),
     T_OBJ_STAR   => array('id' => 'star_id',   'parent_id' => null,                 'tbl' => 'game_data_stars'),
+    T_OBJ_COACHINGSTAFF   => array('id' => 'star_id',   'parent_id' => null,                 'tbl' => 'game_data_coachingstaff'),
     T_OBJ_TEAM   => array('id' => 'team_id',   'parent_id' => 'owned_by_coach_id',  'tbl' => 'teams'),
     T_OBJ_COACH  => array('id' => 'coach_id',  'parent_id' => null,                 'tbl' => 'coaches'),
     T_OBJ_RACE   => array('id' => 'race_id',   'parent_id' => null,                 'tbl' => 'races'),

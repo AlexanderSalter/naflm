@@ -78,6 +78,6 @@ $DEA['Bretonnia'] = array (
 foreach (array('Dolfar Longstride', 'Griff Oberwald', 'Mighty Zug', 'Morg \'n\' Thorg', 'Willow Rosebark', 'Zara the Slayer') as $s) {
     array_push($stars[$s]['races'], T_RACE_BRETONNIA);
 }
-array_push($stars['Horatio X. Schottenheim (Coaching Staff)']['races'],   T_RACE_BRETONNIA);
-array_push($stars['Hireling Sports-Wizard (Wizard)']['races'],   T_RACE_BRETONNIA);
+array_push($coachingstaff['Horatio X. Schottenheim (Coaching Staff)']['races'],   T_RACE_BRETONNIA);
+array_push($coachingstaff['Hireling Sports-Wizard (Wizard)']['races'],   T_RACE_BRETONNIA);
 

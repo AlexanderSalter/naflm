@@ -20,12 +20,13 @@ class SQLCore
 */
 public static function syncGameData()
 {
-    global $core_tables, $DEA, $stars, $skillarray;
+    global $core_tables, $DEA, $stars, $skillarray, $coachingstaff;
 
     $players   = 'game_data_players';
     $races     = 'races';
     $starstbl  = 'game_data_stars';
     $skillstbl = 'game_data_skills';
+	$coachingstafftbl = 'game_data_coachingstaff';
 
     $status = true;
     // Drop and re-create game data tables.
@@ -33,6 +34,7 @@ public static function syncGameData()
     $status &= Table::createTable($races,    $core_tables[$races]);
     $status &= Table::createTable($starstbl, $core_tables[$starstbl]);
     $status &= Table::createTable($skillstbl,$core_tables[$skillstbl]);
+	$status &= Table::createTable($coachingstafftbl,$core_tables[$coachingstafftbl]);
 
     foreach ($DEA as $race_name => $race_details) {
         $query = "INSERT INTO $races(race_id, name, cost_rr) VALUES (".$race_details['other']['race_id'].", '".mysql_real_escape_string($race_name)."', ".$race_details['other']['rr_cost'].")";
@@ -59,6 +61,13 @@ public static function syncGameData()
         foreach ($skills as $id => $s) {
             $status &= mysql_query("INSERT INTO $skillstbl(skill_id, name, cat) VALUES ($id, '".mysql_real_escape_string($s)."', '$grp')");
         }
+    }
+	
+	foreach ($coachingstaff as $coachingstaff_name => $SD) {
+        $query = "INSERT INTO $coachingstafftbl(coachingstaff_id, name, cost, races, ma,st,ag,av, skills) VALUES (
+            $SD[id], '".mysql_real_escape_string($coachingstaff_name)."', $SD[cost], '".implode(',', $SD['races'])."', $SD[ma],$SD[st],$SD[ag],$SD[av], '".implode(',', $SD['def'])."'
+        )";
+        $status = mysql_query($query);
     }
 
     return $status;
@@ -681,7 +690,7 @@ public static function installProcsAndFuncs($install = true)
                 RETURN (SELECT winPct(SUM(won),SUM(lost),SUM(draw),SUM(played)) FROM mv_coaches WHERE f_cid = obj_id);
             ELSEIF obj = '.T_OBJ_RACE.' THEN
                 RETURN (SELECT winPct(SUM(won),SUM(lost),SUM(draw),SUM(played)) FROM mv_races WHERE f_rid = obj_id);
-            ELSEIF (obj = '.T_OBJ_PLAYER.' OR obj = '.T_OBJ_STAR.') THEN
+            ELSEIF (obj = '.T_OBJ_PLAYER.' OR obj = '.T_OBJ_STAR.' OR obj = '.T_OBJ_COACHINGSTAFF.') THEN
                 RETURN (SELECT winPct(SUM(won),SUM(lost),SUM(draw),SUM(played)) FROM mv_players WHERE f_pid = obj_id);
             END IF;
         END',

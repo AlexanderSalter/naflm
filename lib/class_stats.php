@@ -31,6 +31,7 @@ define('STATS_TEAM',   T_OBJ_TEAM);
 define('STATS_COACH',  T_OBJ_COACH);
 define('STATS_RACE',   T_OBJ_RACE);
 define('STATS_STAR',   T_OBJ_STAR);
+define('STATS_COACHINGSTAFF',   T_OBJ_COACHINGSTAFF);
 # Match groupings (nodes):
 define('STATS_MATCH',    T_NODE_MATCH);
 define('STATS_TOUR',     T_NODE_TOURNAMENT);
@@ -75,6 +76,7 @@ public static function getRaw($obj, array $filters, $N, array $sortRule, $setAvg
     $mv_tables = array(
         T_OBJ_PLAYER => 'mv_players',
         T_OBJ_STAR   => 'mv_players',
+        T_OBJ_COACHINGSTAFF   => 'mv_players',
         T_OBJ_TEAM   => 'mv_teams',
         T_OBJ_COACH  => 'mv_coaches',
         T_OBJ_RACE   => 'mv_races',
@@ -82,6 +84,7 @@ public static function getRaw($obj, array $filters, $N, array $sortRule, $setAvg
     $mv_es_tables = array(
         T_OBJ_PLAYER => 'mv_es_players',
         T_OBJ_STAR   => 'mv_es_players',
+        T_OBJ_COACHINGSTAFF   => 'mv_es_players',
         T_OBJ_TEAM   => 'mv_es_teams',
         T_OBJ_COACH  => 'mv_es_coaches',
         T_OBJ_RACE   => 'mv_es_races',

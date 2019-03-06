@@ -30,6 +30,7 @@ $T_ALL_PLAYER_NR = range(1,T_MAX_PLAYER_NR); # = array_merge($T_ALLOWED_PLAYER_N
 // Stars and mercenaries.
 define('ID_MERCS',       -1); // Mercenaries player_id.
 define('ID_STARS_BEGIN', -5); // First star's player_id, second id is one smaller and so on.
+define('ID_COACHINGSTAFF_BEGIN', -1001); // First star's player_id, second id is one smaller and so on.
 
 // Player types.
 define('PLAYER_TYPE_NORMAL',  1);

@@ -151,8 +151,8 @@ $stars['Valen (included in Lucien)'] = array (
        'races'         => array(5,8,20),
    );
 // Addition of DZ 2 In-Famous Coaching Staff
-$stars['Horatio X. Schottenheim (Coaching Staff)'] = array (
-       'id'            => -110,
+$coachingstaff['Horatio X. Schottenheim (Coaching Staff)'] = array (
+       'id'            => -1001,
        'ma'            => 0,
        'st'            => 0,
        'ag'            => 0,
@@ -162,8 +162,8 @@ $stars['Horatio X. Schottenheim (Coaching Staff)'] = array (
        'icon'          => 'star',
        'races'         => array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20),
    );
-$stars['Kari Coldsteel (Coaching Staff)'] = array (
-       'id'            => -111,
+$coachingstaff['Kari Coldsteel (Coaching Staff)'] = array (
+       'id'            => -1002,
        'ma'            => 6,
        'st'            => 2,
        'ag'            => 3,
@@ -173,8 +173,8 @@ $stars['Kari Coldsteel (Coaching Staff)'] = array (
        'icon'          => 'star',
        'races'         => array(0,4,9,14),
    );
-$stars['Fink Da Fixer (Coaching Staff)'] = array (
-       'id'            => -112,
+$coachingstaff['Fink Da Fixer (Coaching Staff)'] = array (
+       'id'            => -1003,
        'ma'            => 0,
        'st'            => 0,
        'ag'            => 0,
@@ -184,8 +184,8 @@ $stars['Fink Da Fixer (Coaching Staff)'] = array (
        'icon'          => 'star',
        'races'         => array(6,12,16,23),
    );
-$stars['Papa Skullbones (Coaching Staff)'] = array (
-       'id'            => -113,
+$coachingstaff['Papa Skullbones (Coaching Staff)'] = array (
+       'id'            => -1004,
        'ma'            => 0,
        'st'            => 0,
        'ag'            => 0,
@@ -195,8 +195,8 @@ $stars['Papa Skullbones (Coaching Staff)'] = array (
        'icon'          => 'star',
        'races'         => array(1,15,21),
    );
-$stars['Galandril Silverwater (Coaching Staff)'] = array (
-       'id'            => -114,
+$coachingstaff['Galandril Silverwater (Coaching Staff)'] = array (
+       'id'            => -1005,
        'ma'            => 0,
        'st'            => 0,
        'ag'            => 0,
@@ -206,8 +206,8 @@ $stars['Galandril Silverwater (Coaching Staff)'] = array (
        'icon'          => 'star',
        'races'         => array(5,8,20),
    );
-$stars['Krot Shockwhisker (Coaching Staff)'] = array (
-       'id'            => -115,
+$coachingstaff['Krot Shockwhisker (Coaching Staff)'] = array (
+       'id'            => -1006,
        'ma'            => 0,
        'st'            => 0,
        'ag'            => 0,
@@ -288,8 +288,8 @@ $stars['Guffle Pusmaw'] = array (
 // Update inducements Spike 1
 unset($inducements['Wizard']);
 //Chaos Sorcerer
-$stars['Chaos Sorcerer (Wizard)'] = array (
-	'id'            => -205,
+$coachingstaff['Chaos Sorcerer (Wizard)'] = array (
+	'id'            => -1007,
 	'ma'            => 0,
 	'st'            => 0,
 	'ag'            => 0,
@@ -300,8 +300,8 @@ $stars['Chaos Sorcerer (Wizard)'] = array (
 	'races'         => array(1,2,15,21),
 );
 //Hireling Sports Wizard
-$stars['Hireling Sports-Wizard (Wizard)'] = array (
-	'id'            => -206,
+$coachingstaff['Hireling Sports-Wizard (Wizard)'] = array (
+	'id'            => -1008,
 	'ma'            => 0,
 	'st'            => 0,
 	'ag'            => 0,
@@ -319,7 +319,7 @@ Spike Mag 2 Updates
 // Update team details Spike 2
 // Update star player details Spike 2
 $stars['Asperon Thorn'] = array (
-	'id'            => -207,
+	'id'            => -205,
 	'ma'            => 6,
 	'st'            => 3,
 	'ag'            => 4,
@@ -330,7 +330,7 @@ $stars['Asperon Thorn'] = array (
 	'races'         => array(3,5,8),
 );
 $stars['Elijah Doom'] = array (
-	'id'            => -208,
+	'id'            => -206,
 	'ma'            => 6,
 	'st'            => 3,
 	'ag'            => 4,
@@ -341,7 +341,7 @@ $stars['Elijah Doom'] = array (
 	'races'         => array(3,5),
 );
 $stars['Kiroth Krakeneye'] = array (
-	'id'            => -209,
+	'id'            => -207,
 	'ma'            => 7,
 	'st'            => 3,
 	'ag'            => 4,
@@ -352,7 +352,7 @@ $stars['Kiroth Krakeneye'] = array (
 	'races'         => array(3,5),
 );
 $stars['Mordrix Hex'] = array (
-	'id'            => -210,
+	'id'            => -208,
 	'ma'            => 7,
 	'st'            => 3,
 	'ag'            => 4,
@@ -363,7 +363,7 @@ $stars['Mordrix Hex'] = array (
 	'races'         => array(3),
 );
 $stars['Roxanna Darknail'] = array (
-	'id'            => -211,
+	'id'            => -209,
 	'ma'            => 8,
 	'st'            => 3,
 	'ag'            => 5,
@@ -374,7 +374,7 @@ $stars['Roxanna Darknail'] = array (
 	'races'         => array(0,3),
 );
 $stars['Jeremiah Kool (Golden Era)'] = array (
-	'id'            => -212,
+	'id'            => -210,
 	'ma'            => 8,
 	'st'            => 3,
 	'ag'            => 5,
@@ -405,8 +405,8 @@ $inducements['Weather Mage'] = array (
 	'reduced_cost_races' => array(),
 );
 //Druchii Sports Sorceress
-$stars['Druchii Sports Sorceress(Wizard)'] = array (
-	'id'            => -213,
+$coachingstaff['Druchii Sports Sorceress(Wizard)'] = array (
+	'id'            => -1009,
 	'ma'            => 0,
 	'st'            => 0,
 	'ag'            => 0,
@@ -426,7 +426,7 @@ $DEA['Nurgle']['players']['Bloater'] = $DEA['Nurgle']['players']['Nurgle Warrior
 $DEA['Nurgle']['players']['Rotspawn'] = $DEA['Nurgle']['players']['Beast of Nurgle']; unset($DEA['Nurgle']['players']['Beast of Nurgle']);
 // Update star player details Spike 3
 $stars['Bulla Shardhorn'] = array (
-	'id'            => -214,
+	'id'            => -211,
 	'ma'            => 6,
 	'st'            => 3,
 	'ag'            => 3,
@@ -437,7 +437,7 @@ $stars['Bulla Shardhorn'] = array (
 	'races'         => array(15),
 );
 $stars['Tolly Glocklinger'] = array (
-	'id'            => -215,
+	'id'            => -212,
 	'ma'            => 3,
 	'st'            => 7,
 	'ag'            => 2,
@@ -449,8 +449,8 @@ $stars['Tolly Glocklinger'] = array (
 );
 // Update inducements Spike 3
 //Plague Doctors
-$stars['Plague Doctors (Coaching Staff)'] = array (
-	'id'            => -216,
+$coachingstaff['Plague Doctors (Coaching Staff)'] = array (
+	'id'            => -1010,
 	'ma'            => 0,
 	'st'            => 0,
 	'ag'            => 0,
@@ -461,8 +461,8 @@ $stars['Plague Doctors (Coaching Staff)'] = array (
 	'races'         => array(1,15),
 );
 //Cavorting Nurglings
-$stars['Cavorting Nurglings (Coaching Staff)'] = array (
-	'id'            => -217,
+$coachingstaff['Cavorting Nurglings (Coaching Staff)'] = array (
+	'id'            => -1011,
 	'ma'            => 0,
 	'st'            => 0,
 	'ag'            => 0,
@@ -473,8 +473,8 @@ $stars['Cavorting Nurglings (Coaching Staff)'] = array (
 	'races'         => array(15),
 );
 //Horticulturalist of Nurgle
-$stars['Horticulturalist of Nurgle (Wizard)'] = array (
-	'id'            => -218,
+$coachingstaff['Horticulturalist of Nurgle (Wizard)'] = array (
+	'id'            => -1012,
 	'ma'            => 0,
 	'st'            => 0,
 	'ag'            => 0,

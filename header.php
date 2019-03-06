@@ -56,6 +56,7 @@ define('T_OBJ_COACH',   3);
 
 define('T_OBJ_RACE',   4);
 define('T_OBJ_STAR',   5);
+define('T_OBJ_COACHINGSTAFF',   6);
 
 define('T_NODE_MATCH',      11);
 define('T_NODE_TOURNAMENT', 12);

@@ -162,6 +162,7 @@ function sort_rule($w) {
         T_OBJ_TEAM   => array('-mv_won', '-mv_draw', '+mv_lost', '-mv_sdiff', '-mv_cas', '+name'), // "All teams"-table
         T_OBJ_PLAYER => array('-value', '-mv_td', '-mv_cas', '-mv_spp', '+name'), // "All players"-table
         T_OBJ_STAR   => array('-mv_played', '+name'), // Stars table.
+        T_OBJ_COACHINGSTAFF   => array('-mv_played', '+name'), // Stars table.
         
         'match'     => array('-date_played'), // Games played tables.
         'player'    => array('+nr', '+name'), // For team roaster player list.

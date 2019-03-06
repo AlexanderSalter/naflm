@@ -98,5 +98,5 @@ $DEA['Simyin'] = array (
       )
 );
 
-array_push($stars['Horatio X. Schottenheim (Coaching Staff)']['races'],   T_RACE_APESOFWRATH);
-array_push($stars['Hireling Sports-Wizard (Wizard)']['races'],   T_RACE_APESOFWRATH);
+array_push($coachingstaff['Horatio X. Schottenheim (Coaching Staff)']['races'],   T_RACE_APESOFWRATH);
+array_push($coachingstaff['Hireling Sports-Wizard (Wizard)']['races'],   T_RACE_APESOFWRATH);

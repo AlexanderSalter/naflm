@@ -5,6 +5,19 @@
 */
 
 $upgradeSQLs = array(
+	'097-098' => array(
+        'CREATE TABLE IF NOT EXISTS game_data_coachingstaff (
+			coachingstaff_id SMALLINT SIGNED NOT NULL PRIMARY KEY,
+			name VARCHAR(60),
+			cost MEDIUMINT UNSIGNED,
+			races VARCHAR('.(29+30*2).'),
+			ma TINYINT UNSIGNED,
+			st TINYINT UNSIGNED,
+			ag TINYINT UNSIGNED,
+			av TINYINT UNSIGNED,
+			skills VARCHAR('.(29+30*2).')
+        )',
+),
     '096-097' => array(
         SQLUpgrade::runIfColumnNOTExists('texts', 'pinned', 'ALTER TABLE texts ADD COLUMN pinned TINYINT UNSIGNED NOT NULL DEFAULT 0'),
 ),
@@ -193,6 +206,7 @@ If you don\'t do this the non-tied teams may not be scheduled to play in any mat
 '090-091' => array(),
 '091-095' => array(),
 '096-097' => array(),
+'097-098' => array(),
 );
 
 $upgradeSettings = array(
@@ -201,5 +215,6 @@ $upgradeSettings = array(
 '090-091' => array('syncall' => false, 'sync_gamedata' => false, 'reload_indexes' => false),
 '091-095' => array('syncall' => false, 'sync_gamedata' => false, 'reload_indexes' => false),
 '096-097' => array('syncall' => false, 'sync_gamedata' => false, 'reload_indexes' => false),
+'097-098' => array('syncall' => false, 'sync_gamedata' => true, 'reload_indexes' => false),
 );
 
